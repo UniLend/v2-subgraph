@@ -1,0 +1,65 @@
+type FlashLoan @entity(immutable: true) {
+  id: Bytes!
+  _target: Bytes! # address
+  _reserve: Bytes! # address
+  _amount: BigInt! # int256
+  _totalFee: BigInt! # uint256
+  _protocolFee: BigInt! # uint256
+  _timestamp: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewDefaultInterestRateAddress @entity(immutable: true) {
+  id: Bytes!
+  _address: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewDefaultMarketConfig @entity(immutable: true) {
+  id: Bytes!
+  _ltv: Int! # uint8
+  _lb: Int! # uint8
+  _rf: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewGovernorAddress @entity(immutable: true) {
+  id: Bytes!
+  _address: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewOracleAddress @entity(immutable: true) {
+  id: Bytes!
+  _address: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewPositionAddress @entity(immutable: true) {
+  id: Bytes!
+  _address: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PoolCreated @entity(immutable: true) {
+  id: Bytes!
+  token0: Bytes! # address
+  token1: Bytes! # address
+  pool: Bytes! # address
+  param3: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

@@ -1,0 +1,41 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Core
+    network: mumbai
+    source:
+      address: "0x35B7296a75845399b0447a4F5dBCB07b5BcC8B4D"
+      abi: Core
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - FlashLoan
+        - NewDefaultInterestRateAddress
+        - NewDefaultMarketConfig
+        - NewGovernorAddress
+        - NewOracleAddress
+        - NewPositionAddress
+        - PoolCreated
+      abis:
+        - name: Core
+          file: ./abis/Core.json
+      eventHandlers:
+        - event: FlashLoan(indexed address,indexed address,int256,uint256,uint256,uint256)
+          handler: handleFlashLoan
+        - event: NewDefaultInterestRateAddress(indexed address)
+          handler: handleNewDefaultInterestRateAddress
+        - event: NewDefaultMarketConfig(uint8,uint8,uint8)
+          handler: handleNewDefaultMarketConfig
+        - event: NewGovernorAddress(indexed address)
+          handler: handleNewGovernorAddress
+        - event: NewOracleAddress(indexed address)
+          handler: handleNewOracleAddress
+        - event: NewPositionAddress(indexed address)
+          handler: handleNewPositionAddress
+        - event: PoolCreated(indexed address,indexed address,address,uint256)
+          handler: handlePoolCreated
+      file: ./src/core.ts
