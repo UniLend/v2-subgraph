@@ -68,8 +68,6 @@ type Token @entity {
   totalPoolsLiquidity: BigDecimal!
   # liquidity across all pools in derived USD
   totalPoolsLiquidityUSD: BigDecimal!
-  #price in usd
-  priceUSD: BigInt!
 }
 
 type PoolCreated @entity(immutable: true) {
@@ -98,6 +96,6 @@ type Lend @entity(immutable: true) {
 
 type AssetOracle @entity(immutable: true) {
   id: Bytes!
-  tokenPrice: BigInt!
+  tokenPrice: BigDecimal!
   asset: Bytes!
 }

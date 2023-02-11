@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: Core
@@ -13,7 +13,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/mappings/core.ts
+      file: Core/Core.wasm
       entities:
         - FlashLoan
         - NewDefaultInterestRateAddress
@@ -24,35 +24,22 @@ dataSources:
         - PoolCreated
       abis:
         - name: Core
-          file: ./abis/Core.json
+          file: Core/abis/Core.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: Core/abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: Core/abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: Core/abis/ERC20NameBytes.json
         - name: Pool
-          file: ./abis/Pool.json
+          file: Core/abis/Pool.json
         - name: Position
-          file: ./abis/Position.json
+          file: Core/abis/Position.json
         - name: Oracle
-          file: ./abis/Oracle.json
+          file: Core/abis/Oracle.json
       eventHandlers:
-        # - event: FlashLoan(indexed address,indexed address,int256,uint256,uint256,uint256)
-        #   handler: handleFlashLoan
-        # - event: NewDefaultInterestRateAddress(indexed address)
-        #   handler: handleNewDefaultInterestRateAddress
-        # - event: NewDefaultMarketConfig(uint8,uint8,uint8)
-        #   handler: handleNewDefaultMarketConfig
-        # - event: NewGovernorAddress(indexed address)
-        #   handler: handleNewGovernorAddress
-        # - event: NewOracleAddress(indexed address)
-        #   handler: handleNewOracleAddress
-        # - event: NewPositionAddress(indexed address)
-        #   handler: handleNewPositionAddress
         - event: PoolCreated(indexed address,indexed address,address,uint256)
           handler: handlePoolCreated
-
   - kind: ethereum
     name: Oracle
     network: mumbai
@@ -64,48 +51,39 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/mappings/oracle.ts
+      file: Oracle/Oracle.wasm
       entities:
         - Pool
         - Transaction
         - AssetOracleUpdated
       abis:
         - name: Oracle
-          file: ./abis/Oracle.json
+          file: Oracle/abis/Oracle.json
       eventHandlers:
         - event: AssetOracleUpdated(indexed address,indexed address)
           handler: handleAssetOracleUpdate
-
 templates:
   - name: Pool
     kind: ethereum/contract
     network: mumbai
     source:
       abi: Pool
-    mapping: 
+    mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/mappings/pool.ts
+      file: templates/Pool/Pool.wasm
       entities:
         - Pool
       abis:
         - name: Pool
-          file: ./abis/Pool.json
+          file: Pool/abis/Pool.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: Pool/abis/ERC20.json
         - name: Position
-          file: ./abis/Position.json
+          file: Pool/abis/Position.json
         - name: Oracle
-          file: ./abis/Oracle.json
+          file: Pool/abis/Oracle.json
       eventHandlers:
         - event: Lend(indexed address,indexed uint256,uint256,uint256)
           handler: handleLend
-        # - event: Borrow(indexed address,indexed uint256,uint256,uint256,address)
-        #   handler: handleBorrow
-        # - event: RepayBorrow(indexed address,indexed uint256,uint256,uint256,address)
-        #   handler: handleRepay
-        # - event: Redeem(indexed address,indexed uint256,uint256,uint256)
-        #   handler: handleRedeem
-        # - event: InterestUpdate(uint256,uint256,uint256,uint256)
-        #   handler: handleInterestUpdate        
