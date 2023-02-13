@@ -15,6 +15,8 @@ export function setToken(address: Address): Token {
     token.totalPoolsLiquidity = ZERO_BD;
     token.totalPoolsLiquidityUSD = ZERO_BD;
     token.poolCount = ZERO_BI;
+    token.lentCount = ZERO_BI;
+    token.borrowCount = ZERO_BI;
     token.priceUSD = getOraclePrice(Address.fromString(oracleAddress), address);
   }
   token.poolCount = token.poolCount.plus(ONE_BI);

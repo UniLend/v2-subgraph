@@ -14,7 +14,7 @@ import {
   NewGovernorAddress,
   NewOracleAddress,
   NewPositionAddress,
-  PoolCreated,
+  Pool,
   Token,
 } from '../../generated/schema';
 import { Pool as PoolTemplate } from '../../generated/templates';
@@ -113,7 +113,7 @@ export function handleNewPositionAddress(event: NewPositionAddressEvent): void {
 
 export function handlePoolCreated(event: PoolCreatedEvent): void {
   let poolAddress = event.params.pool;
-  let entity = new PoolCreated(poolAddress);
+  let entity = new Pool(poolAddress);
   // setting pools here
   const token0 = setToken(event.params.token0);
   const token1 = setToken(event.params.token1);

@@ -6,7 +6,7 @@ dataSources:
     name: Core
     network: mumbai
     source:
-      address: "0x35B7296a75845399b0447a4F5dBCB07b5BcC8B4D"
+      address: '0x35B7296a75845399b0447a4F5dBCB07b5BcC8B4D'
       abi: Core
       startBlock: 29798329
     mapping:
@@ -57,7 +57,7 @@ dataSources:
     name: Oracle
     network: mumbai
     source:
-      address: "0x7F1455c727e58A51dFA168fd711b8B664E1E48BA"
+      address: '0x7F1455c727e58A51dFA168fd711b8B664E1E48BA'
       abi: Oracle
       startBlock: 29798329
     mapping:
@@ -70,11 +70,42 @@ dataSources:
         - Transaction
         - AssetOracleUpdated
       abis:
+        - name: Core
+          file: ./abis/Core.json
+        - name: Pool
+          file: ./abis/Pool.json
+        - name: Position
+          file: ./abis/Position.json
         - name: Oracle
           file: ./abis/Oracle.json
       eventHandlers:
         - event: AssetOracleUpdated(indexed address,indexed address)
           handler: handleAssetOracleUpdate
+
+  - kind: ethereum
+    name: Position
+    network: mumbai
+    source:
+      address: '0x62f5Be0da0302665Dc39F3386B8e3e60aDe4bf7B'
+      abi: Position
+      startBlock: 29798329
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/position.ts
+      entities:
+        - Transfer
+      abis:
+        - name: Core
+          file: ./abis/Core.json
+        - name: Pool
+          file: ./abis/Pool.json
+        - name: Position
+          file: ./abis/Position.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
 
 templates:
   - name: Pool
@@ -82,7 +113,7 @@ templates:
     network: mumbai
     source:
       abi: Pool
-    mapping: 
+    mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
@@ -101,11 +132,11 @@ templates:
       eventHandlers:
         - event: Lend(indexed address,indexed uint256,uint256,uint256)
           handler: handleLend
-        # - event: Borrow(indexed address,indexed uint256,uint256,uint256,address)
-        #   handler: handleBorrow
-        # - event: RepayBorrow(indexed address,indexed uint256,uint256,uint256,address)
-        #   handler: handleRepay
-        # - event: Redeem(indexed address,indexed uint256,uint256,uint256)
-        #   handler: handleRedeem
-        # - event: InterestUpdate(uint256,uint256,uint256,uint256)
-        #   handler: handleInterestUpdate        
+        - event: Borrow(indexed address,indexed uint256,uint256,uint256,address)
+          handler: handleBorrow
+        - event: RepayBorrow(indexed address,indexed uint256,uint256,uint256,address)
+          handler: handleRepay
+        - event: Redeem(indexed address,indexed uint256,uint256,uint256)
+          handler: handleRedeem
+        - event: InterestUpdate(uint256,uint256,uint256,uint256)
+          handler: handleInterestUpdate

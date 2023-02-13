@@ -68,19 +68,281 @@ type Token @entity {
   totalPoolsLiquidity: BigDecimal!
   # liquidity across all pools in derived USD
   totalPoolsLiquidityUSD: BigDecimal!
-  #price in usd
+  # price in usd
   priceUSD: BigInt!
+  # number of times token lent in all pools
+  lentCount: BigInt!
+  # number of times token borrowed in all pools
+  borrowCount: BigInt!
 }
 
-type PoolCreated @entity(immutable: true) {
+type Protocol @entity {
+  " Core contract ot comptroller address"
   id: Bytes!
+  " Number of cumulative unique users "
+  cumulativeUniqueUsers: Int!
+
+  " Number of cumulative depositors "
+  cumulativeUniqueDepositors: Int!
+
+  " Number of cumulative borrowers "
+  cumulativeUniqueBorrowers: Int!
+
+  " Number of cumulative liquidators (accounts that performed liquidation) "
+  cumulativeUniqueLiquidators: Int!
+
+  " Number of cumulative liquidatees (accounts that got liquidated) "
+  cumulativeUniqueLiquidatees: Int!
+
+  " Current TVL (Total Value Locked) of the entire protocol "
+  totalValueLockedUSD: BigDecimal!
+
+  " Revenue claimed by suppliers to the protocol. LPs on DEXs (e.g. 0.25% of the swap fee in Sushiswap). Depositors on Lending Protocols. NFT sellers on OpenSea. "
+  cumulativeSupplySideRevenueUSD: BigDecimal!
+
+  " Sum of all historical deposits in USD (only considers deposits and not withdrawals) "
+  cumulativeDepositUSD: BigDecimal!
+
+  " Sum of all historical borrows/mints in USD (i.e. total loan origination). "
+  cumulativeBorrowUSD: BigDecimal!
+
+  " Sum of all historical liquidations in USD "
+  cumulativeLiquidateUSD: BigDecimal!
+
+  " Total number of pools "
+  totalPoolCount: Int!
+
+  " Total number of open positions "
+  openPositionCount: Int!
+
+  " Total number of positions (open and closed) "
+  cumulativePositionCount: Int!
+
+  # " Daily usage metrics for this protocol "
+  # dailyUsageMetrics: [UsageMetricsDailySnapshot!]!
+  #   @derivedFrom(field: "protocol")
+
+  # " Hourly usage metrics for this protocol "
+  # hourlyUsageMetrics: [UsageMetricsHourlySnapshot!]!
+  #   @derivedFrom(field: "protocol")
+
+  # " Daily financial metrics for this protocol "
+  # financialMetrics: [FinancialsDailySnapshot!]! @derivedFrom(field: "protocol")
+}
+
+# type UsageMetricsDailySnapshot @entity {
+#   " ID is # of days since Unix epoch time "
+#   id: ID!
+
+#   " Number of unique daily active users "
+#   dailyActiveUsers: Int!
+
+#   " Number of cumulative unique users "
+#   cumulativeUniqueUsers: Int!
+
+#   # " Number of unique daily depositors "
+#   # dailyActiveDepositors: Int!
+
+#   " Number of cumulative depositors "
+#   cumulativeUniqueLenders: Int!
+
+#   # " Number of unique daily borrowers "
+#   # dailyActiveBorrowers: Int!
+
+#   " Number of cumulative borrowers "
+#   cumulativeUniqueBorrowers: Int!
+
+#   # " Number of unique daily liquidators (accounts that performed liquidation) "
+#   # dailyActiveLiquidators: Int!
+
+#   " Number of cumulative liquidators (accounts that performed liquidation) "
+#   cumulativeUniqueLiquidators: Int!
+
+#   # " Number of unique daily liquidatees (accounts that got liquidated) "
+#   # dailyActiveLiquidatees: Int!
+
+#   " Number of cumulative liquidatees (accounts that got liquidated) "
+#   cumulativeUniqueLiquidatees: Int!
+
+#   " Total number of transactions occurred in a day. Transactions include all entities that implement the Event interface. "
+#   dailyTransactionCount: Int!
+
+#   " Total number of deposits in a day "
+#   dailyLendCount: Int!
+
+#   " Total number of withdrawals in a day "
+#   dailyRedeemCount: Int!
+
+#   " Total number of borrows/mints in a day "
+#   dailyBorrowCount: Int!
+
+#   " Total number of repayments/burns in a day "
+#   dailyRepayCount: Int!
+
+#   " Total number of liquidations in a day "
+#   dailyLiquidateCount: Int!
+
+#   " Total number of pools "
+#   totalPoolCount: Int!
+
+#   " Block number of this snapshot "
+#   blockNumber: BigInt!
+
+#   " Timestamp of this snapshot "
+#   timestamp: BigInt!
+# }
+
+type Pool @entity {
+  id: Bytes!
+  " Token 0 "
   token0: Token!
+
+  " Token 1 "
   token1: Token!
-  pool: Bytes! # address
-  param3: BigInt! # uint256
+
+  " Pool addresss "
+  pool: Bytes!
+
+  " params3 "
+  param3: BigInt!
+
+  " block pool was created at "
   blockNumber: BigInt!
+
+  " creation "
   blockTimestamp: BigInt!
+
+  # in range liquidity
+  liquidity: BigInt!
+
+  # all time number of transactions
+  txCount: BigInt!
+
+  " token0 apy "
+  token0Apy: BigDecimal!
+
+  " token1 apy "
+  token0Apy: BigDecimal!
+
+  " Max ltv "
+  maxLTV: BigInt!
+
+  " Liquidation Bonus "
+  lB: BigInt!
+
+  # " hourly snapshots of pool data "
+  # # poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
+
+  # " daily snapshots of pool data "
+  # # poolDayData: [PoolDayData!]! @derivedFrom(field: "pool")
+
+  " Transaction Hash of pool created "
   transactionHash: Bytes!
+
+  ##### Account/Position Data #####
+
+  " All positions in this market "
+  positions: [Position!]! @derivedFrom(field: "pool")
+
+  " Number of positions in this market "
+  positionCount: Int!
+
+  " Number of open positions in this market "
+  openPositionCount: Int!
+
+  " Number of closed positions in this market "
+  closedPositionCount: Int!
+
+  " Number of lending positions in this market "
+  lendingPositionCount: Int!
+
+  " Number of borrowing positions in this market "
+  borrowingPositionCount: Int!
+
+  ##### Events #####
+
+  " All Lends made to this poolCreated "
+  Lends: [Lend!]! @derivedFrom(field: "pool")
+
+  " All withdrawals made from this poolCreated "
+  Redeem: [Redeem!]! @derivedFrom(field: "pool")
+
+  " All borrows from this poolCreated "
+  borrows: [Borrow!]! @derivedFrom(field: "pool")
+
+  " All repayments to this poolCreated "
+  repays: [Repay!]! @derivedFrom(field: "pool")
+
+  # " All liquidations made to this poolCreated "
+  # liquidates: [Liquidate!]! @derivedFrom(field: "poolCreated")
+}
+
+type Position @entity {
+  " { Account address }-{ Market address }-{ Position Side }-{ Counter } "
+  id: ID!
+
+  " Account that owns this position "
+  account: Bytes!
+
+  " The pool in which this position was opened "
+  pool: Pool!
+
+  " The hash of the transaction that opened this position "
+  hashOpened: String!
+
+  " The hash of the transaction that closed this position "
+  hashClosed: String
+
+  " Block number of when the position was opened "
+  blockNumberOpened: BigInt!
+
+  " Timestamp when the position was opened "
+  timestampOpened: BigInt!
+
+  " Block number of when the position was closed (0 if still open) "
+  blockNumberClosed: BigInt
+
+  " Timestamp when the position was closed (0 if still open) "
+  timestampClosed: BigInt
+
+  # " Side of the position (either lender or borrower) "
+  # side: PositionSide!
+
+  " Token balance in this position, in native amounts "
+  balance: BigInt!
+
+  " Number of Lend related to this position "
+  lendCount: Int!
+
+  " All deposit events of this position "
+  Lend: [Lend!]! @derivedFrom(field: "position")
+
+  " Number of Redeems related to this position "
+  redeemCount: Int!
+
+  " All Redeem events of this position "
+  redeems: [Redeem!]! @derivedFrom(field: "position")
+
+  " Number of borrows related to this position "
+  borrowCount: Int!
+
+  " All borrow events of this position "
+  borrows: [Borrow!]! @derivedFrom(field: "position")
+
+  " Number of repays related to this position "
+  repayCount: Int!
+
+  " All repay events of this position "
+  repays: [Repay!]! @derivedFrom(field: "position")
+
+  " Number of liquidations related to this position "
+  liquidationCount: Int!
+
+  # " Liquidation event related to this position (if exists) "
+  # liquidations: [Liquidate!]! @derivedFrom(field: "position")
+
+  # " Position daily snapshots for open positions "
+  # snapshots: [PositionSnapshot!]! @derivedFrom(field: "position")
 }
 
 type Lend @entity(immutable: true) {
@@ -88,8 +350,51 @@ type Lend @entity(immutable: true) {
   amount: BigDecimal!
   tokenAmount: BigDecimal!
   sender: Bytes!
-  pool: Bytes!
+  pool: Pool!
   positionId: BigInt!
+  position: Position!
+  token: Bytes!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  blockNumber: BigInt!
+}
+
+type Redeem @entity(immutable: true) {
+  id: Bytes!
+  amount: BigDecimal!
+  tokenAmount: BigDecimal!
+  sender: Bytes!
+  pool: Pool!
+  positionId: BigInt!
+  position: Position!
+  token: Bytes!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  blockNumber: BigInt!
+}
+
+type Repay @entity(immutable: true) {
+  id: Bytes!
+  amount: BigDecimal!
+  sender: Bytes!
+  pool: Pool!
+  positionId: BigInt!
+  position: Position!
+  totalBorrows: BigDecimal!
+  token: Bytes!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  blockNumber: BigInt!
+}
+
+type Borrow @entity(immutable: true) {
+  id: Bytes!
+  amount: BigDecimal!
+  sender: Bytes!
+  pool: Pool!
+  positionId: BigInt!
+  position: Position!
+  totalBorrows: BigDecimal!
   token: Bytes!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -100,4 +405,11 @@ type AssetOracle @entity(immutable: true) {
   id: Bytes!
   tokenPrice: BigInt!
   asset: Bytes!
+}
+
+type Transfer @entity {
+  id: Bytes!
+  from: Bytes!
+  to: Bytes!
+  tokenId: BigInt!
 }
