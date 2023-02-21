@@ -19,7 +19,7 @@ import {
 } from '../../generated/schema';
 import { Pool as PoolTemplate } from '../../generated/templates';
 import { BI_18, ONE_BI, ZERO_BD, ZERO_BI } from '../utils/constants';
-import { setToken } from '../utils/helper';
+import { getPoolData, setToken } from '../utils/helper';
 import { getTokenSymbol } from '../utils/token';
 
 export function handleFlashLoan(event: FlashLoanEvent): void {
@@ -117,7 +117,12 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   // setting pools here
   const token0 = setToken(event.params.token0);
   const token1 = setToken(event.params.token1);
-
+  // const poolData = setPoolData(event.params.pool);
+  entity.liquidity0 = ZERO_BD;
+  entity.liquidity1 = ZERO_BD;
+  entity.maxLTV = ZERO_BI;
+  entity.lB = ZERO_BI;
+  entity.rf = ZERO_BI;
   entity.token0 = event.params.token0;
   entity.token1 = event.params.token1;
   entity.pool = event.params.pool;
@@ -125,7 +130,28 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
+  // entity.liquidity0 = poolData._token0Liquidity.toBigDecimal();
+  // entity.liquidity1 = poolData._token1Liquidity.toBigDecimal();
+  // entity.maxLTV = poolData.ltv;
+  // entity.lB = poolData.lb;
+  // entity.rf = poolData.rf;
+
+  // to be set during transactions;
+  entity.txCount = ZERO_BI;
+  entity.positionCount = 0;
+  entity.openPositionCount = 0;
+  entity.closedPositionCount = 0;
+  entity.lendingPositionCount = 0;
+  entity.borrowingPositionCount = 0;
+  entity.token0Apy = ZERO_BD;
+  entity.token1Apy = ZERO_BD;
+  // poolData.positions = [];
+  // poolData.lends = [];
+  // poolData.redeem = [];
+  // poolData.repays = [];
+  // poolData.borrows = [];
 
   PoolTemplate.create(poolAddress);
   entity.save();
+  // entity.save();
 }

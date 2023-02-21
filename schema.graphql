@@ -213,22 +213,29 @@ type Pool @entity {
   blockTimestamp: BigInt!
 
   # in range liquidity
-  liquidity: BigInt!
+  liquidity0: BigDecimal!
+
+  liquidity1: BigDecimal!
 
   # all time number of transactions
+  # it will come from all lend borrow repay redeem
   txCount: BigInt!
 
   " token0 apy "
   token0Apy: BigDecimal!
 
   " token1 apy "
-  token0Apy: BigDecimal!
+  token1Apy: BigDecimal!
 
   " Max ltv "
   maxLTV: BigInt!
 
+  # it will be added in poolcreation
   " Liquidation Bonus "
   lB: BigInt!
+
+  " reserve factor "
+  rf: BigInt!
 
   # " hourly snapshots of pool data "
   # # poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
@@ -236,6 +243,7 @@ type Pool @entity {
   # " daily snapshots of pool data "
   # # poolDayData: [PoolDayData!]! @derivedFrom(field: "pool")
 
+  # when pool is created
   " Transaction Hash of pool created "
   transactionHash: Bytes!
 
@@ -262,10 +270,10 @@ type Pool @entity {
   ##### Events #####
 
   " All Lends made to this poolCreated "
-  Lends: [Lend!]! @derivedFrom(field: "pool")
+  lends: [Lend!]! @derivedFrom(field: "pool")
 
   " All withdrawals made from this poolCreated "
-  Redeem: [Redeem!]! @derivedFrom(field: "pool")
+  redeem: [Redeem!]! @derivedFrom(field: "pool")
 
   " All borrows from this poolCreated "
   borrows: [Borrow!]! @derivedFrom(field: "pool")
@@ -352,7 +360,7 @@ type Lend @entity(immutable: true) {
   sender: Bytes!
   pool: Pool!
   positionId: BigInt!
-  position: Position!
+  position: Position
   token: Bytes!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -366,7 +374,7 @@ type Redeem @entity(immutable: true) {
   sender: Bytes!
   pool: Pool!
   positionId: BigInt!
-  position: Position!
+  position: Position
   token: Bytes!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -379,7 +387,7 @@ type Repay @entity(immutable: true) {
   sender: Bytes!
   pool: Pool!
   positionId: BigInt!
-  position: Position!
+  position: Position
   totalBorrows: BigDecimal!
   token: Bytes!
   blockTimestamp: BigInt!
@@ -393,7 +401,7 @@ type Borrow @entity(immutable: true) {
   sender: Bytes!
   pool: Pool!
   positionId: BigInt!
-  position: Position!
+  position: Position
   totalBorrows: BigDecimal!
   token: Bytes!
   blockTimestamp: BigInt!
@@ -412,4 +420,12 @@ type Transfer @entity {
   from: Bytes!
   to: Bytes!
   tokenId: BigInt!
+}
+
+type InterestUpdate @entity(immutable: true) {
+  id: Bytes!
+  interestRate0: BigDecimal!
+  interestRate1: BigDecimal!
+  totalBorrows0: BigDecimal!
+  totalBorrows1: BigDecimal!
 }

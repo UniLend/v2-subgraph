@@ -1,4 +1,5 @@
-specVersion: 0.0.5
+specVersion: 0.0.4
+description: Unilend testnet on Mumbai
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +12,7 @@ dataSources:
       startBlock: 29798329
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/core.ts
       entities:
@@ -37,6 +38,8 @@ dataSources:
           file: ./abis/Position.json
         - name: Oracle
           file: ./abis/Oracle.json
+        - name: Helper
+          file: ./abis/Helper.json
       eventHandlers:
         # - event: FlashLoan(indexed address,indexed address,int256,uint256,uint256,uint256)
         #   handler: handleFlashLoan
@@ -52,7 +55,6 @@ dataSources:
         #   handler: handleNewPositionAddress
         - event: PoolCreated(indexed address,indexed address,address,uint256)
           handler: handlePoolCreated
-
   - kind: ethereum
     name: Oracle
     network: mumbai
@@ -62,7 +64,7 @@ dataSources:
       startBlock: 29798329
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/oracle.ts
       entities:
@@ -81,7 +83,6 @@ dataSources:
       eventHandlers:
         - event: AssetOracleUpdated(indexed address,indexed address)
           handler: handleAssetOracleUpdate
-
   - kind: ethereum
     name: Position
     network: mumbai
@@ -91,7 +92,7 @@ dataSources:
       startBlock: 29798329
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/position.ts
       entities:
@@ -106,7 +107,6 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-
 templates:
   - name: Pool
     kind: ethereum/contract
@@ -115,7 +115,7 @@ templates:
       abi: Pool
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/pool.ts
       entities:
@@ -129,6 +129,8 @@ templates:
           file: ./abis/Position.json
         - name: Oracle
           file: ./abis/Oracle.json
+        - name: Helper
+          file: ./abis/Helper.json
       eventHandlers:
         - event: Lend(indexed address,indexed uint256,uint256,uint256)
           handler: handleLend

@@ -851,13 +851,31 @@ export class Pool extends Entity {
     this.set("blockTimestamp", Value.fromBigInt(value));
   }
 
-  get liquidity(): BigInt {
-    let value = this.get("liquidity");
-    return value!.toBigInt();
+  get liquidity0(): BigDecimal {
+    let value = this.get("liquidity0");
+    return value!.toBigDecimal();
   }
 
-  set liquidity(value: BigInt) {
-    this.set("liquidity", Value.fromBigInt(value));
+  set liquidity0(value: BigDecimal) {
+    this.set("liquidity0", Value.fromBigDecimal(value));
+  }
+
+  get liquidity1(): BigDecimal {
+    let value = this.get("liquidity1");
+    return value!.toBigDecimal();
+  }
+
+  set liquidity1(value: BigDecimal) {
+    this.set("liquidity1", Value.fromBigDecimal(value));
+  }
+
+  get newLiqui0(): BigDecimal {
+    let value = this.get("newLiqui0");
+    return value!.toBigDecimal();
+  }
+
+  set newLiqui0(value: BigDecimal) {
+    this.set("newLiqui0", Value.fromBigDecimal(value));
   }
 
   get txCount(): BigInt {
@@ -878,13 +896,13 @@ export class Pool extends Entity {
     this.set("token0Apy", Value.fromBigDecimal(value));
   }
 
-  get token0Apy(): BigDecimal {
-    let value = this.get("token0Apy");
+  get token1Apy(): BigDecimal {
+    let value = this.get("token1Apy");
     return value!.toBigDecimal();
   }
 
-  set token0Apy(value: BigDecimal) {
-    this.set("token0Apy", Value.fromBigDecimal(value));
+  set token1Apy(value: BigDecimal) {
+    this.set("token1Apy", Value.fromBigDecimal(value));
   }
 
   get maxLTV(): BigInt {
@@ -903,6 +921,15 @@ export class Pool extends Entity {
 
   set lB(value: BigInt) {
     this.set("lB", Value.fromBigInt(value));
+  }
+
+  get rf(): BigInt {
+    let value = this.get("rf");
+    return value!.toBigInt();
+  }
+
+  set rf(value: BigInt) {
+    this.set("rf", Value.fromBigInt(value));
   }
 
   get transactionHash(): Bytes {
@@ -968,22 +995,22 @@ export class Pool extends Entity {
     this.set("borrowingPositionCount", Value.fromI32(value));
   }
 
-  get Lends(): Array<Bytes> {
-    let value = this.get("Lends");
+  get lends(): Array<Bytes> {
+    let value = this.get("lends");
     return value!.toBytesArray();
   }
 
-  set Lends(value: Array<Bytes>) {
-    this.set("Lends", Value.fromBytesArray(value));
+  set lends(value: Array<Bytes>) {
+    this.set("lends", Value.fromBytesArray(value));
   }
 
-  get Redeem(): Array<Bytes> {
-    let value = this.get("Redeem");
+  get redeem(): Array<Bytes> {
+    let value = this.get("redeem");
     return value!.toBytesArray();
   }
 
-  set Redeem(value: Array<Bytes>) {
-    this.set("Redeem", Value.fromBytesArray(value));
+  set redeem(value: Array<Bytes>) {
+    this.set("redeem", Value.fromBytesArray(value));
   }
 
   get borrows(): Array<Bytes> {
@@ -1299,13 +1326,21 @@ export class Lend extends Entity {
     this.set("positionId", Value.fromBigInt(value));
   }
 
-  get position(): string {
+  get position(): string | null {
     let value = this.get("position");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set position(value: string) {
-    this.set("position", Value.fromString(value));
+  set position(value: string | null) {
+    if (!value) {
+      this.unset("position");
+    } else {
+      this.set("position", Value.fromString(<string>value));
+    }
   }
 
   get token(): Bytes {
@@ -1421,13 +1456,21 @@ export class Redeem extends Entity {
     this.set("positionId", Value.fromBigInt(value));
   }
 
-  get position(): string {
+  get position(): string | null {
     let value = this.get("position");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set position(value: string) {
-    this.set("position", Value.fromString(value));
+  set position(value: string | null) {
+    if (!value) {
+      this.unset("position");
+    } else {
+      this.set("position", Value.fromString(<string>value));
+    }
   }
 
   get token(): Bytes {
@@ -1534,13 +1577,21 @@ export class Repay extends Entity {
     this.set("positionId", Value.fromBigInt(value));
   }
 
-  get position(): string {
+  get position(): string | null {
     let value = this.get("position");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set position(value: string) {
-    this.set("position", Value.fromString(value));
+  set position(value: string | null) {
+    if (!value) {
+      this.unset("position");
+    } else {
+      this.set("position", Value.fromString(<string>value));
+    }
   }
 
   get totalBorrows(): BigDecimal {
@@ -1656,13 +1707,21 @@ export class Borrow extends Entity {
     this.set("positionId", Value.fromBigInt(value));
   }
 
-  get position(): string {
+  get position(): string | null {
     let value = this.get("position");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set position(value: string) {
-    this.set("position", Value.fromString(value));
+  set position(value: string | null) {
+    if (!value) {
+      this.unset("position");
+    } else {
+      this.set("position", Value.fromString(<string>value));
+    }
   }
 
   get totalBorrows(): BigDecimal {
@@ -1819,5 +1878,75 @@ export class Transfer extends Entity {
 
   set tokenId(value: BigInt) {
     this.set("tokenId", Value.fromBigInt(value));
+  }
+}
+
+export class InterestUpdate extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save InterestUpdate entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type InterestUpdate must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("InterestUpdate", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static load(id: Bytes): InterestUpdate | null {
+    return changetype<InterestUpdate | null>(
+      store.get("InterestUpdate", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    return value!.toBytes();
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get interestRate0(): BigDecimal {
+    let value = this.get("interestRate0");
+    return value!.toBigDecimal();
+  }
+
+  set interestRate0(value: BigDecimal) {
+    this.set("interestRate0", Value.fromBigDecimal(value));
+  }
+
+  get interestRate1(): BigDecimal {
+    let value = this.get("interestRate1");
+    return value!.toBigDecimal();
+  }
+
+  set interestRate1(value: BigDecimal) {
+    this.set("interestRate1", Value.fromBigDecimal(value));
+  }
+
+  get totalBorrows0(): BigDecimal {
+    let value = this.get("totalBorrows0");
+    return value!.toBigDecimal();
+  }
+
+  set totalBorrows0(value: BigDecimal) {
+    this.set("totalBorrows0", Value.fromBigDecimal(value));
+  }
+
+  get totalBorrows1(): BigDecimal {
+    let value = this.get("totalBorrows1");
+    return value!.toBigDecimal();
+  }
+
+  set totalBorrows1(value: BigDecimal) {
+    this.set("totalBorrows1", Value.fromBigDecimal(value));
   }
 }
