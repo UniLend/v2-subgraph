@@ -1,10 +1,4 @@
-import {
-  Address,
-  BigDecimal,
-  BigInt,
-  ethereum,
-  log,
-} from '@graphprotocol/graph-ts';
+import { Address, log } from '@graphprotocol/graph-ts';
 import { Token } from '../../generated/schema';
 import {
   Pool,
@@ -27,6 +21,7 @@ import {
   Helper,
   Helper__getPoolDataResult_outStruct,
 } from '../../generated/templates/Pool/Helper';
+import { PoolCreated as PoolCreatedEvent } from '../../generated/Core/Core';
 
 export function setToken(address: Address): Token {
   let token = Token.load(address);
@@ -48,70 +43,25 @@ export function setToken(address: Address): Token {
   return token;
 }
 
-// export function setPoolData(poolAddress: Address): PoolSchema {
-//   let contract = Pool.bind(poolAddress);
-//   let pool = PoolSchema.load(poolAddress);
-//   // if (contract != null) {
-//   let liquidity0 = readValue<BigInt>(
-//     contract.try_getAvailableLiquidity0(),
-//     ZERO_BI
-//   );
-//   let liquidity1 = readValue<BigInt>(
-//     contract.try_getAvailableLiquidity1(),
-//     ZERO_BI
-//   );
-//   // let liquidity1 = contract.getAvailableLiquidity1();
-//   let ltv = readValue<BigInt>(
-//     // contract.try_getAvailableLiquidity1(),
-//     contract.try_getLTV(),
-//     ZERO_BI
-//   );
-//   let lb = readValue<BigInt>(
-//     // contract.try_getAvailableLiquidity1(),
-//     contract.try_getLB(),
-//     ZERO_BI
-//   );
-//   let rf = readValue<BigInt>(
-//     // contract.try_getAvailableLiquidity1(),
-//     contract.try_getRF(),
-//     ZERO_BI
-//   );
-//   // let lb = contract.getLB();
-//   // let rf = contract.getRF();
-//   if (pool == null) {
-//     pool = new PoolSchema(poolAddress);
-//     pool.liquidity0 = ZERO_BD;
-//     pool.liquidity1 = ZERO_BD;
-//     pool.maxLTV = ZERO_BI;
-//     pool.lB = ZERO_BI;
-//     pool.rf = ZERO_BI;
-//   }
-//   pool.liquidity0 = liquidity0.toBigDecimal();
-//   pool.liquidity1 = liquidity1.toBigDecimal();
-//   pool.newLiqui0 = ONE_BD;
-//   if (contract != null) {
-//     pool.newLiqui0 = contract.getAvailableLiquidity0().toBigDecimal();
-//   }
-//   pool.maxLTV = ltv;
-//   pool.lB = lb;
-//   pool.rf = rf;
-//   // pool.save();
-//   // }
-//   return pool;
-// }
+export function setPoolData(
+  poolAddress: Address,
+  entity: PoolSchema
+): PoolSchema {
+  let helper = Helper.bind(helperAddress);
 
-export function getPoolData(poolAddress: Address): Pool__poolDataResult {
-  let contract = Pool.bind(poolAddress);
-  if (contract != null) {
-    log.debug("my debug the poolcontract is null", []);
-  }
-  let callResult =
-    // readValue<BigInt>(
-    contract.poolData();
-  // ZERO_BI
+  // let data = readValue<Helper__getPoolDataResult_outStruct>(
+  //   poolData.try_getPoolData(poolAddress),
+  //   ZERO_BI
   // );
-  if (callResult != null) {
-    log.debug("my debug the poolcontract is null", []);
+
+  let poolData = helper.try_getPoolData(poolAddress);
+  if (!poolData.reverted) {
+    entity.liquidity0 = poolData.value._token0Liquidity.toBigDecimal();
+    entity.liquidity1 = poolData.value._token1Liquidity.toBigDecimal();
+    entity.maxLTV = poolData.value.ltv;
+    entity.lB = poolData.value.lb;
+    entity.rf = poolData.value.rf;
   }
-  return callResult;
+
+  return entity;
 }

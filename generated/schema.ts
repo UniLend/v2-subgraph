@@ -869,15 +869,6 @@ export class Pool extends Entity {
     this.set("liquidity1", Value.fromBigDecimal(value));
   }
 
-  get newLiqui0(): BigDecimal {
-    let value = this.get("newLiqui0");
-    return value!.toBigDecimal();
-  }
-
-  set newLiqui0(value: BigDecimal) {
-    this.set("newLiqui0", Value.fromBigDecimal(value));
-  }
-
   get txCount(): BigInt {
     let value = this.get("txCount");
     return value!.toBigInt();

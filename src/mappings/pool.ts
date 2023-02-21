@@ -13,32 +13,30 @@ import {
   Redeem as RedeemEvent,
   InterestUpdate as InterestUpdateEvent,
 } from '../../generated/templates/Pool/Pool';
-import { getPoolData } from '../utils/helper';
+import { setPoolData } from '../utils/helper';
 
 export function handleLend(event: LendEvent): void {
   let entity = new Lend(event.transaction.hash);
-  // let pool = Pool.load(event.address);
+  let pool = Pool.load(event.address);
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
   entity.pool = event.address;
   entity.positionId = event.params._positionID;
-  // if (pool != null) {
-  //   pool.newLiqui0 = getPoolData(event.address)
-  //     .get_totalLendShare1()
-  //     .toBigDecimal();
-  //   pool.save();
-  // }
-  // entity.position = event.params._positionID;
   entity.blockTimestamp = event.block.timestamp;
   entity.blockNumber = event.block.number;
   entity.tokenAmount = event.params._token_amount.toBigDecimal();
   entity.transactionHash = event.transaction.hash;
+  if (pool != null) {
+    pool = setPoolData(event.address, pool);
+    pool.save();
+  }
   entity.save();
 }
 
 export function handleBorrow(event: BorrowEvent): void {
   let entity = new Borrow(event.transaction.hash);
+  let pool = Pool.load(event.address);
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -48,11 +46,16 @@ export function handleBorrow(event: BorrowEvent): void {
   entity.blockNumber = event.block.number;
   entity.totalBorrows = event.params.totalBorrows.toBigDecimal();
   entity.transactionHash = event.transaction.hash;
+  if (pool != null) {
+    pool = setPoolData(event.address, pool);
+    pool.save();
+  }
   entity.save();
 }
 
 export function handleRepay(event: RepayEvent): void {
   let entity = new Repay(event.transaction.hash);
+  let pool = Pool.load(event.address);
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -62,11 +65,16 @@ export function handleRepay(event: RepayEvent): void {
   entity.blockNumber = event.block.number;
   entity.totalBorrows = event.params.totalBorrows.toBigDecimal();
   entity.transactionHash = event.transaction.hash;
+  if (pool != null) {
+    pool = setPoolData(event.address, pool);
+    pool.save();
+  }
   entity.save();
 }
 
 export function handleRedeem(event: RedeemEvent): void {
   let entity = new Redeem(event.transaction.hash);
+  let pool = Pool.load(event.address);
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -76,6 +84,10 @@ export function handleRedeem(event: RedeemEvent): void {
   entity.blockNumber = event.block.number;
   entity.tokenAmount = event.params._token_amount.toBigDecimal();
   entity.transactionHash = event.transaction.hash;
+  if (pool != null) {
+    pool = setPoolData(event.address, pool);
+    pool.save();
+  }
   entity.save();
 }
 

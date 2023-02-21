@@ -217,8 +217,6 @@ type Pool @entity {
 
   liquidity1: BigDecimal!
 
-  newLiqui0: BigDecimal!
-
   # all time number of transactions
   # it will come from all lend borrow repay redeem
   txCount: BigInt!
