@@ -702,22 +702,22 @@ export class Protocol extends Entity {
     this.set("totalValueLockedUSD", Value.fromBigDecimal(value));
   }
 
-  get cumulativeSupplySideRevenueUSD(): BigDecimal {
-    let value = this.get("cumulativeSupplySideRevenueUSD");
+  get cumulativeLendSideRevenueUSD(): BigDecimal {
+    let value = this.get("cumulativeLendSideRevenueUSD");
     return value!.toBigDecimal();
   }
 
-  set cumulativeSupplySideRevenueUSD(value: BigDecimal) {
-    this.set("cumulativeSupplySideRevenueUSD", Value.fromBigDecimal(value));
+  set cumulativeLendSideRevenueUSD(value: BigDecimal) {
+    this.set("cumulativeLendSideRevenueUSD", Value.fromBigDecimal(value));
   }
 
-  get cumulativeDepositUSD(): BigDecimal {
-    let value = this.get("cumulativeDepositUSD");
+  get cumulativeLendUSD(): BigDecimal {
+    let value = this.get("cumulativeLendUSD");
     return value!.toBigDecimal();
   }
 
-  set cumulativeDepositUSD(value: BigDecimal) {
-    this.set("cumulativeDepositUSD", Value.fromBigDecimal(value));
+  set cumulativeLendUSD(value: BigDecimal) {
+    this.set("cumulativeLendUSD", Value.fromBigDecimal(value));
   }
 
   get cumulativeBorrowUSD(): BigDecimal {
@@ -824,13 +824,13 @@ export class Pool extends Entity {
     this.set("pool", Value.fromBytes(value));
   }
 
-  get param3(): BigInt {
-    let value = this.get("param3");
+  get poolNo(): BigInt {
+    let value = this.get("poolNo");
     return value!.toBigInt();
   }
 
-  set param3(value: BigInt) {
-    this.set("param3", Value.fromBigInt(value));
+  set poolNo(value: BigInt) {
+    this.set("poolNo", Value.fromBigInt(value));
   }
 
   get blockNumber(): BigInt {
@@ -878,22 +878,76 @@ export class Pool extends Entity {
     this.set("txCount", Value.fromBigInt(value));
   }
 
-  get token0Apy(): BigDecimal {
-    let value = this.get("token0Apy");
+  get lendApy0(): BigDecimal {
+    let value = this.get("lendApy0");
     return value!.toBigDecimal();
   }
 
-  set token0Apy(value: BigDecimal) {
-    this.set("token0Apy", Value.fromBigDecimal(value));
+  set lendApy0(value: BigDecimal) {
+    this.set("lendApy0", Value.fromBigDecimal(value));
   }
 
-  get token1Apy(): BigDecimal {
-    let value = this.get("token1Apy");
+  get lendApy1(): BigDecimal {
+    let value = this.get("lendApy1");
     return value!.toBigDecimal();
   }
 
-  set token1Apy(value: BigDecimal) {
-    this.set("token1Apy", Value.fromBigDecimal(value));
+  set lendApy1(value: BigDecimal) {
+    this.set("lendApy1", Value.fromBigDecimal(value));
+  }
+
+  get borrowApy0(): BigDecimal {
+    let value = this.get("borrowApy0");
+    return value!.toBigDecimal();
+  }
+
+  set borrowApy0(value: BigDecimal) {
+    this.set("borrowApy0", Value.fromBigDecimal(value));
+  }
+
+  get borrowApy1(): BigDecimal {
+    let value = this.get("borrowApy1");
+    return value!.toBigDecimal();
+  }
+
+  set borrowApy1(value: BigDecimal) {
+    this.set("borrowApy1", Value.fromBigDecimal(value));
+  }
+
+  get totalBorrow0(): BigDecimal {
+    let value = this.get("totalBorrow0");
+    return value!.toBigDecimal();
+  }
+
+  set totalBorrow0(value: BigDecimal) {
+    this.set("totalBorrow0", Value.fromBigDecimal(value));
+  }
+
+  get totalBorrow1(): BigDecimal {
+    let value = this.get("totalBorrow1");
+    return value!.toBigDecimal();
+  }
+
+  set totalBorrow1(value: BigDecimal) {
+    this.set("totalBorrow1", Value.fromBigDecimal(value));
+  }
+
+  get interest0(): BigDecimal {
+    let value = this.get("interest0");
+    return value!.toBigDecimal();
+  }
+
+  set interest0(value: BigDecimal) {
+    this.set("interest0", Value.fromBigDecimal(value));
+  }
+
+  get interest1(): BigDecimal {
+    let value = this.get("interest1");
+    return value!.toBigDecimal();
+  }
+
+  set interest1(value: BigDecimal) {
+    this.set("interest1", Value.fromBigDecimal(value));
   }
 
   get maxLTV(): BigInt {
@@ -921,6 +975,105 @@ export class Pool extends Entity {
 
   set rf(value: BigInt) {
     this.set("rf", Value.fromBigInt(value));
+  }
+
+  get UtilizationRate0(): BigDecimal {
+    let value = this.get("UtilizationRate0");
+    return value!.toBigDecimal();
+  }
+
+  set UtilizationRate0(value: BigDecimal) {
+    this.set("UtilizationRate0", Value.fromBigDecimal(value));
+  }
+
+  get UtilizationRate1(): BigDecimal {
+    let value = this.get("UtilizationRate1");
+    return value!.toBigDecimal();
+  }
+
+  set UtilizationRate1(value: BigDecimal) {
+    this.set("UtilizationRate1", Value.fromBigDecimal(value));
+  }
+
+  get fullLiquidity0(): BigInt {
+    let value = this.get("fullLiquidity0");
+    return value!.toBigInt();
+  }
+
+  set fullLiquidity0(value: BigInt) {
+    this.set("fullLiquidity0", Value.fromBigInt(value));
+  }
+
+  get totalValueLockedUSD(): BigDecimal {
+    let value = this.get("totalValueLockedUSD");
+    return value!.toBigDecimal();
+  }
+
+  set totalValueLockedUSD(value: BigDecimal) {
+    this.set("totalValueLockedUSD", Value.fromBigDecimal(value));
+  }
+
+  get cumulativeSupplySideRevenueUSD(): BigDecimal {
+    let value = this.get("cumulativeSupplySideRevenueUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeSupplySideRevenueUSD(value: BigDecimal) {
+    this.set("cumulativeSupplySideRevenueUSD", Value.fromBigDecimal(value));
+  }
+
+  get totalLendBalanceUSD(): BigDecimal {
+    let value = this.get("totalLendBalanceUSD");
+    return value!.toBigDecimal();
+  }
+
+  set totalLendBalanceUSD(value: BigDecimal) {
+    this.set("totalLendBalanceUSD", Value.fromBigDecimal(value));
+  }
+
+  get cumulativeuLendUSD(): BigDecimal {
+    let value = this.get("cumulativeuLendUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeuLendUSD(value: BigDecimal) {
+    this.set("cumulativeuLendUSD", Value.fromBigDecimal(value));
+  }
+
+  get totalBorrowBalanceUSD(): BigDecimal {
+    let value = this.get("totalBorrowBalanceUSD");
+    return value!.toBigDecimal();
+  }
+
+  set totalBorrowBalanceUSD(value: BigDecimal) {
+    this.set("totalBorrowBalanceUSD", Value.fromBigDecimal(value));
+  }
+
+  get cumulativeBorrowUSD(): BigDecimal {
+    let value = this.get("cumulativeBorrowUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeBorrowUSD(value: BigDecimal) {
+    this.set("cumulativeBorrowUSD", Value.fromBigDecimal(value));
+  }
+
+  get cumulativeLiquidateUSD(): BigDecimal {
+    let value = this.get("cumulativeLiquidateUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeLiquidateUSD(value: BigDecimal) {
+    this.set("cumulativeLiquidateUSD", Value.fromBigDecimal(value));
+  }
+
+  get PoolDailySnapshot(): Array<string> {
+    let value = this.get("PoolDailySnapshot");
+    return value!.toStringArray();
+  }
+
+  set PoolDailySnapshot(value: Array<string>) {
+    this.set("PoolDailySnapshot", Value.fromStringArray(value));
   }
 
   get transactionHash(): Bytes {
@@ -1054,13 +1207,13 @@ export class Position extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get account(): Bytes {
-    let value = this.get("account");
+  get owner(): Bytes {
+    let value = this.get("owner");
     return value!.toBytes();
   }
 
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
   }
 
   get pool(): Bytes {
@@ -1238,6 +1391,205 @@ export class Position extends Entity {
 
   set liquidationCount(value: i32) {
     this.set("liquidationCount", Value.fromI32(value));
+  }
+}
+
+export class PoolDailySnapshot extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save PoolDailySnapshot entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type PoolDailySnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("PoolDailySnapshot", id.toString(), this);
+    }
+  }
+
+  static load(id: string): PoolDailySnapshot | null {
+    return changetype<PoolDailySnapshot | null>(
+      store.get("PoolDailySnapshot", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): Bytes {
+    let value = this.get("pool");
+    return value!.toBytes();
+  }
+
+  set pool(value: Bytes) {
+    this.set("pool", Value.fromBytes(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get cumulativeSupplySideRevenueUSD(): BigDecimal {
+    let value = this.get("cumulativeSupplySideRevenueUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeSupplySideRevenueUSD(value: BigDecimal) {
+    this.set("cumulativeSupplySideRevenueUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailySupplySideRevenueUSD(): BigDecimal {
+    let value = this.get("dailySupplySideRevenueUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailySupplySideRevenueUSD(value: BigDecimal) {
+    this.set("dailySupplySideRevenueUSD", Value.fromBigDecimal(value));
+  }
+
+  get cumulativeTotalRevenueUSD(): BigDecimal {
+    let value = this.get("cumulativeTotalRevenueUSD");
+    return value!.toBigDecimal();
+  }
+
+  set cumulativeTotalRevenueUSD(value: BigDecimal) {
+    this.set("cumulativeTotalRevenueUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyTotalRevenueUSD(): BigDecimal {
+    let value = this.get("dailyTotalRevenueUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyTotalRevenueUSD(value: BigDecimal) {
+    this.set("dailyTotalRevenueUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyLendUSD(): BigDecimal {
+    let value = this.get("dailyLendUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyLendUSD(value: BigDecimal) {
+    this.set("dailyLendUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyBorrowUSD(): BigDecimal {
+    let value = this.get("dailyBorrowUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyBorrowUSD(value: BigDecimal) {
+    this.set("dailyBorrowUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyLiquidateUSD(): BigDecimal {
+    let value = this.get("dailyLiquidateUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyLiquidateUSD(value: BigDecimal) {
+    this.set("dailyLiquidateUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyRedeemUSD(): BigDecimal {
+    let value = this.get("dailyRedeemUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyRedeemUSD(value: BigDecimal) {
+    this.set("dailyRedeemUSD", Value.fromBigDecimal(value));
+  }
+
+  get dailyRepayUSD(): BigDecimal {
+    let value = this.get("dailyRepayUSD");
+    return value!.toBigDecimal();
+  }
+
+  set dailyRepayUSD(value: BigDecimal) {
+    this.set("dailyRepayUSD", Value.fromBigDecimal(value));
+  }
+
+  get exchangeRate(): BigDecimal | null {
+    let value = this.get("exchangeRate");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set exchangeRate(value: BigDecimal | null) {
+    if (!value) {
+      this.unset("exchangeRate");
+    } else {
+      this.set("exchangeRate", Value.fromBigDecimal(<BigDecimal>value));
+    }
+  }
+
+  get rewardTokenEmissionsAmount(): Array<BigInt> | null {
+    let value = this.get("rewardTokenEmissionsAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set rewardTokenEmissionsAmount(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("rewardTokenEmissionsAmount");
+    } else {
+      this.set(
+        "rewardTokenEmissionsAmount",
+        Value.fromBigIntArray(<Array<BigInt>>value)
+      );
+    }
+  }
+
+  get rewardTokenEmissionsUSD(): Array<BigDecimal> | null {
+    let value = this.get("rewardTokenEmissionsUSD");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigDecimalArray();
+    }
+  }
+
+  set rewardTokenEmissionsUSD(value: Array<BigDecimal> | null) {
+    if (!value) {
+      this.unset("rewardTokenEmissionsUSD");
+    } else {
+      this.set(
+        "rewardTokenEmissionsUSD",
+        Value.fromBigDecimalArray(<Array<BigDecimal>>value)
+      );
+    }
   }
 }
 
@@ -1939,5 +2291,23 @@ export class InterestUpdate extends Entity {
 
   set totalBorrows1(value: BigDecimal) {
     this.set("totalBorrows1", Value.fromBigDecimal(value));
+  }
+
+  get blockTimestamp(): BigInt {
+    let value = this.get("blockTimestamp");
+    return value!.toBigInt();
+  }
+
+  set blockTimestamp(value: BigInt) {
+    this.set("blockTimestamp", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
   }
 }

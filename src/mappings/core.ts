@@ -1,3 +1,4 @@
+import { Address } from '@graphprotocol/graph-ts';
 import {
   FlashLoan as FlashLoanEvent,
   NewDefaultInterestRateAddress as NewDefaultInterestRateAddressEvent,
@@ -15,11 +16,16 @@ import {
   NewOracleAddress,
   NewPositionAddress,
   Pool,
+  Protocol,
   Token,
 } from '../../generated/schema';
 import { Pool as PoolTemplate } from '../../generated/templates';
-import { BI_18, ONE_BI, ZERO_BD, ZERO_BI } from '../utils/constants';
-import { setPoolData, setToken } from '../utils/helper';
+import {
+  coreAddress,
+  ZERO_BD,
+  ZERO_BI,
+} from '../utils/constants';
+import { setProtocol, setPoolData, setToken } from '../utils/helper';
 import { getTokenSymbol } from '../utils/token';
 
 export function handleFlashLoan(event: FlashLoanEvent): void {
@@ -114,6 +120,7 @@ export function handleNewPositionAddress(event: NewPositionAddressEvent): void {
 export function handlePoolCreated(event: PoolCreatedEvent): void {
   let poolAddress = event.params.pool;
   let entity = new Pool(poolAddress);
+  let protocol = Protocol.load(Address.fromHexString(coreAddress));
   // setting pools here
   const token0 = setToken(event.params.token0);
   const token1 = setToken(event.params.token1);
@@ -126,7 +133,7 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   entity.token0 = event.params.token0;
   entity.token1 = event.params.token1;
   entity.pool = event.params.pool;
-  entity.param3 = event.params.param3;
+  entity.poolNo = event.params.param3;
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
@@ -137,11 +144,33 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   entity.closedPositionCount = 0;
   entity.lendingPositionCount = 0;
   entity.borrowingPositionCount = 0;
-  entity.token0Apy = ZERO_BD;
-  entity.token1Apy = ZERO_BD;
+  entity.lendApy0 = ZERO_BD;
+  entity.lendApy1 = ZERO_BD;
+  entity.borrowApy0 = ZERO_BD;
+  entity.borrowApy1 = ZERO_BD;
+  entity.totalBorrow0 = ZERO_BD;
+  entity.totalBorrow1 = ZERO_BD;
+  entity.interest0 = ZERO_BD;
+  entity.interest1 = ZERO_BD;
+  entity.UtilizationRate0 = ZERO_BD;
+  entity.UtilizationRate1 = ZERO_BD;
+  entity.totalValueLockedUSD = ZERO_BD;
+  entity.cumulativeSupplySideRevenueUSD = ZERO_BD;
+  entity.totalLendBalanceUSD = ZERO_BD;
+  entity.cumulativeuLendUSD = ZERO_BD;
+  entity.totalBorrowBalanceUSD = ZERO_BD;
+  entity.cumulativeBorrowUSD = ZERO_BD;
+  entity.cumulativeLiquidateUSD = ZERO_BD;
+  entity.fullLiquidity0 = ZERO_BI;
 
-  entity = setPoolData(poolAddress, entity);
-  
+  // entity = setPoolData(poolAddress, entity);
+
+  if (protocol == null) {
+    protocol = setProtocol();
+  }
+  protocol.totalPoolCount = protocol.totalPoolCount + 1;
+
+  protocol.save();
   entity.save();
   PoolTemplate.create(poolAddress);
 }
