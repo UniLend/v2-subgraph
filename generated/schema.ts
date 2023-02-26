@@ -1225,29 +1225,29 @@ export class Position extends Entity {
     this.set("pool", Value.fromBytes(value));
   }
 
-  get hashOpened(): string {
+  get hashOpened(): Bytes {
     let value = this.get("hashOpened");
-    return value!.toString();
+    return value!.toBytes();
   }
 
-  set hashOpened(value: string) {
-    this.set("hashOpened", Value.fromString(value));
+  set hashOpened(value: Bytes) {
+    this.set("hashOpened", Value.fromBytes(value));
   }
 
-  get hashClosed(): string | null {
+  get hashClosed(): Bytes | null {
     let value = this.get("hashClosed");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set hashClosed(value: string | null) {
+  set hashClosed(value: Bytes | null) {
     if (!value) {
       this.unset("hashClosed");
     } else {
-      this.set("hashClosed", Value.fromString(<string>value));
+      this.set("hashClosed", Value.fromBytes(<Bytes>value));
     }
   }
 
@@ -1303,22 +1303,49 @@ export class Position extends Entity {
     }
   }
 
-  get balance(): BigInt {
-    let value = this.get("balance");
+  get lendBalance0(): BigDecimal {
+    let value = this.get("lendBalance0");
+    return value!.toBigDecimal();
+  }
+
+  set lendBalance0(value: BigDecimal) {
+    this.set("lendBalance0", Value.fromBigDecimal(value));
+  }
+
+  get borrowBalance0(): BigDecimal {
+    let value = this.get("borrowBalance0");
+    return value!.toBigDecimal();
+  }
+
+  set borrowBalance0(value: BigDecimal) {
+    this.set("borrowBalance0", Value.fromBigDecimal(value));
+  }
+
+  get lendBalance1(): BigDecimal {
+    let value = this.get("lendBalance1");
+    return value!.toBigDecimal();
+  }
+
+  set lendBalance1(value: BigDecimal) {
+    this.set("lendBalance1", Value.fromBigDecimal(value));
+  }
+
+  get borrowBalance1(): BigDecimal {
+    let value = this.get("borrowBalance1");
+    return value!.toBigDecimal();
+  }
+
+  set borrowBalance1(value: BigDecimal) {
+    this.set("borrowBalance1", Value.fromBigDecimal(value));
+  }
+
+  get lendCount(): BigInt {
+    let value = this.get("lendCount");
     return value!.toBigInt();
   }
 
-  set balance(value: BigInt) {
-    this.set("balance", Value.fromBigInt(value));
-  }
-
-  get lendCount(): i32 {
-    let value = this.get("lendCount");
-    return value!.toI32();
-  }
-
-  set lendCount(value: i32) {
-    this.set("lendCount", Value.fromI32(value));
+  set lendCount(value: BigInt) {
+    this.set("lendCount", Value.fromBigInt(value));
   }
 
   get Lend(): Array<Bytes> {
@@ -1330,13 +1357,13 @@ export class Position extends Entity {
     this.set("Lend", Value.fromBytesArray(value));
   }
 
-  get redeemCount(): i32 {
+  get redeemCount(): BigInt {
     let value = this.get("redeemCount");
-    return value!.toI32();
+    return value!.toBigInt();
   }
 
-  set redeemCount(value: i32) {
-    this.set("redeemCount", Value.fromI32(value));
+  set redeemCount(value: BigInt) {
+    this.set("redeemCount", Value.fromBigInt(value));
   }
 
   get redeems(): Array<Bytes> {
@@ -1348,13 +1375,13 @@ export class Position extends Entity {
     this.set("redeems", Value.fromBytesArray(value));
   }
 
-  get borrowCount(): i32 {
+  get borrowCount(): BigInt {
     let value = this.get("borrowCount");
-    return value!.toI32();
+    return value!.toBigInt();
   }
 
-  set borrowCount(value: i32) {
-    this.set("borrowCount", Value.fromI32(value));
+  set borrowCount(value: BigInt) {
+    this.set("borrowCount", Value.fromBigInt(value));
   }
 
   get borrows(): Array<Bytes> {
@@ -1366,13 +1393,13 @@ export class Position extends Entity {
     this.set("borrows", Value.fromBytesArray(value));
   }
 
-  get repayCount(): i32 {
+  get repayCount(): BigInt {
     let value = this.get("repayCount");
-    return value!.toI32();
+    return value!.toBigInt();
   }
 
-  set repayCount(value: i32) {
-    this.set("repayCount", Value.fromI32(value));
+  set repayCount(value: BigInt) {
+    this.set("repayCount", Value.fromBigInt(value));
   }
 
   get repays(): Array<Bytes> {
@@ -1384,13 +1411,13 @@ export class Position extends Entity {
     this.set("repays", Value.fromBytesArray(value));
   }
 
-  get liquidationCount(): i32 {
+  get liquidationCount(): BigInt {
     let value = this.get("liquidationCount");
-    return value!.toI32();
+    return value!.toBigInt();
   }
 
-  set liquidationCount(value: i32) {
-    this.set("liquidationCount", Value.fromI32(value));
+  set liquidationCount(value: BigInt) {
+    this.set("liquidationCount", Value.fromBigInt(value));
   }
 }
 
@@ -1686,6 +1713,15 @@ export class Lend extends Entity {
     }
   }
 
+  get eventType(): string {
+    let value = this.get("eventType");
+    return value!.toString();
+  }
+
+  set eventType(value: string) {
+    this.set("eventType", Value.fromString(value));
+  }
+
   get token(): Bytes {
     let value = this.get("token");
     return value!.toBytes();
@@ -1816,6 +1852,15 @@ export class Redeem extends Entity {
     }
   }
 
+  get eventType(): string {
+    let value = this.get("eventType");
+    return value!.toString();
+  }
+
+  set eventType(value: string) {
+    this.set("eventType", Value.fromString(value));
+  }
+
   get token(): Bytes {
     let value = this.get("token");
     return value!.toBytes();
@@ -1937,6 +1982,15 @@ export class Repay extends Entity {
     }
   }
 
+  get eventType(): string {
+    let value = this.get("eventType");
+    return value!.toString();
+  }
+
+  set eventType(value: string) {
+    this.set("eventType", Value.fromString(value));
+  }
+
   get totalBorrows(): BigDecimal {
     let value = this.get("totalBorrows");
     return value!.toBigDecimal();
@@ -2039,6 +2093,15 @@ export class Borrow extends Entity {
 
   set pool(value: Bytes) {
     this.set("pool", Value.fromBytes(value));
+  }
+
+  get eventType(): string {
+    let value = this.get("eventType");
+    return value!.toString();
+  }
+
+  set eventType(value: string) {
+    this.set("eventType", Value.fromString(value));
   }
 
   get positionId(): BigInt {

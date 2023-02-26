@@ -6,6 +6,7 @@ import {
   InterestUpdate,
   Pool,
   Token,
+  Position,
 } from '../../generated/schema';
 import {
   Lend as LendEvent,
@@ -14,13 +15,21 @@ import {
   Redeem as RedeemEvent,
   InterestUpdate as InterestUpdateEvent,
 } from '../../generated/templates/Pool/Pool';
-import { ONE_BI } from '../utils/constants';
+import { ADDRESS_ZERO, ONE_BI } from '../utils/constants';
 import { setPoolData } from '../utils/helper';
+import {
+  setPosition,
+  updateBorrowPosition,
+  updateLendPosition,
+  updateRedeemPosition,
+  updateRepayPosition,
+} from '../utils/position';
 
 export function handleLend(event: LendEvent): void {
   let entity = new Lend(event.transaction.hash);
   let pool = Pool.load(event.address);
   let token = Token.load(event.params._asset);
+  let position = Position.load(event.params._positionID.toString());
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -41,6 +50,14 @@ export function handleLend(event: LendEvent): void {
     }
     pool.save();
   }
+  // update or set position
+  if (position == null) {
+    position = new Position(event.params._positionID.toString());
+    position = setPosition(position);
+  }
+  position = updateLendPosition(position, event);
+
+  position.save();
   entity.save();
 }
 
@@ -48,6 +65,7 @@ export function handleBorrow(event: BorrowEvent): void {
   let entity = new Borrow(event.transaction.hash);
   let pool = Pool.load(event.address);
   let token = Token.load(event.params._asset);
+  let position = Position.load(event.params._positionID.toString());
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -68,12 +86,22 @@ export function handleBorrow(event: BorrowEvent): void {
     }
     pool.save();
   }
+
+  // update or set position
+  if (position == null) {
+    position = new Position(event.params._positionID.toString());
+    position = setPosition(position);
+  }
+  position = updateBorrowPosition(event, position);
+  position.save();
+
   entity.save();
 }
 
 export function handleRepay(event: RepayEvent): void {
   let entity = new Repay(event.transaction.hash);
   let pool = Pool.load(event.address);
+  let position = Position.load(event.params._positionID.toString());
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -89,12 +117,21 @@ export function handleRepay(event: RepayEvent): void {
     pool.txCount = pool.txCount.plus(ONE_BI);
     pool.save();
   }
+
+  if (position == null) {
+    position = new Position(event.params._positionID.toString());
+    position = setPosition(position);
+  }
+  position = updateRepayPosition(event, position);
+
+  position.save();
   entity.save();
 }
 
 export function handleRedeem(event: RedeemEvent): void {
   let entity = new Redeem(event.transaction.hash);
   let pool = Pool.load(event.address);
+  let position = Position.load(event.params._positionID.toString());
   entity.amount = event.params._amount.toBigDecimal();
   entity.token = event.params._asset;
   entity.sender = event.transaction.from;
@@ -110,6 +147,14 @@ export function handleRedeem(event: RedeemEvent): void {
     pool.txCount = pool.txCount.plus(ONE_BI);
     pool.save();
   }
+
+  if (position == null) {
+    position = new Position(event.params._positionID.toString());
+    position = setPosition(position);
+  }
+  position = updateRedeemPosition(event, position);
+
+  position.save();
   entity.save();
 }
 

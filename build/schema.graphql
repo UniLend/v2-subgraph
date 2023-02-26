@@ -337,7 +337,7 @@ type Pool @entity {
 }
 
 type Position @entity {
-  " { Account address }-{ Market address }-{ Position Side }-{ Counter } "
+  " Position Side "
   id: ID!
 
   " Account that owns this position "
@@ -347,10 +347,10 @@ type Position @entity {
   pool: Pool!
 
   " The hash of the transaction that opened this position "
-  hashOpened: String!
+  hashOpened: Bytes!
 
   " The hash of the transaction that closed this position "
-  hashClosed: String
+  hashClosed: Bytes
 
   " Block number of when the position was opened "
   blockNumberOpened: BigInt!
@@ -364,35 +364,44 @@ type Position @entity {
   " Timestamp when the position was closed (0 if still open) "
   timestampClosed: BigInt
 
-  " Token balance in this position, in native amounts "
-  balance: BigInt!
+  " lend balance of token 0 in this position, in native amounts "
+  lendBalance0: BigDecimal!
+
+  " borrow balance of token 0 in this position, in native amounts "
+  borrowBalance0: BigDecimal!
+
+  " lend balance of token 1 in this position, in native amounts "
+  lendBalance1: BigDecimal!
+
+  " borrow balance of token 1 in this position, in native amounts "
+  borrowBalance1: BigDecimal!
 
   " Number of Lend related to this position "
-  lendCount: Int!
+  lendCount: BigInt!
 
   " All deposit events of this position "
   Lend: [Lend!]! @derivedFrom(field: "position")
 
   " Number of Redeems related to this position "
-  redeemCount: Int!
+  redeemCount: BigInt!
 
   " All Redeem events of this position "
   redeems: [Redeem!]! @derivedFrom(field: "position")
 
   " Number of borrows related to this position "
-  borrowCount: Int!
+  borrowCount: BigInt!
 
   " All borrow events of this position "
   borrows: [Borrow!]! @derivedFrom(field: "position")
 
   " Number of repays related to this position "
-  repayCount: Int!
+  repayCount: BigInt!
 
   " All repay events of this position "
   repays: [Repay!]! @derivedFrom(field: "position")
 
   " Number of liquidations related to this position "
-  liquidationCount: Int!
+  liquidationCount: BigInt!
 
   # " Liquidation event related to this position (if exists) "
   # liquidations: [Liquidate!]! @derivedFrom(field: "position")
