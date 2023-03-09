@@ -376,6 +376,15 @@ type Position @entity {
   " borrow balance of token 1 in this position, in native amounts "
   borrowBalance1: BigDecimal!
 
+  " current ltv of the position "
+  currentLTV: BigDecimal!
+
+  " HealthFactor value for token0 "
+  healthFactor0: BigDecimal!
+
+  " HealthFactor value for token1 "
+  healthFactor1: BigDecimal!
+
   " Number of Lend related to this position "
   lendCount: BigInt!
 

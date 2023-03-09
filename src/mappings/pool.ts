@@ -53,7 +53,7 @@ export function handleLend(event: LendEvent): void {
   // update or set position
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position);
+    position = setPosition(position,event);
   }
   position = updateLendPosition(position, event);
 
@@ -90,11 +90,11 @@ export function handleBorrow(event: BorrowEvent): void {
   // update or set position
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position);
+    position = setPosition(position, event);
   }
   position = updateBorrowPosition(event, position);
-  position.save();
 
+  position.save();
   entity.save();
 }
 
@@ -120,7 +120,7 @@ export function handleRepay(event: RepayEvent): void {
 
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position);
+    position = setPosition(position,event);
   }
   position = updateRepayPosition(event, position);
 
@@ -150,7 +150,7 @@ export function handleRedeem(event: RedeemEvent): void {
 
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position);
+    position = setPosition(position,event);
   }
   position = updateRedeemPosition(event, position);
 

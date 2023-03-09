@@ -1339,6 +1339,33 @@ export class Position extends Entity {
     this.set("borrowBalance1", Value.fromBigDecimal(value));
   }
 
+  get currentLTV(): BigDecimal {
+    let value = this.get("currentLTV");
+    return value!.toBigDecimal();
+  }
+
+  set currentLTV(value: BigDecimal) {
+    this.set("currentLTV", Value.fromBigDecimal(value));
+  }
+
+  get healthFactor0(): BigDecimal {
+    let value = this.get("healthFactor0");
+    return value!.toBigDecimal();
+  }
+
+  set healthFactor0(value: BigDecimal) {
+    this.set("healthFactor0", Value.fromBigDecimal(value));
+  }
+
+  get healthFactor1(): BigDecimal {
+    let value = this.get("healthFactor1");
+    return value!.toBigDecimal();
+  }
+
+  set healthFactor1(value: BigDecimal) {
+    this.set("healthFactor1", Value.fromBigDecimal(value));
+  }
+
   get lendCount(): BigInt {
     let value = this.get("lendCount");
     return value!.toBigInt();
@@ -1713,15 +1740,6 @@ export class Lend extends Entity {
     }
   }
 
-  get eventType(): string {
-    let value = this.get("eventType");
-    return value!.toString();
-  }
-
-  set eventType(value: string) {
-    this.set("eventType", Value.fromString(value));
-  }
-
   get token(): Bytes {
     let value = this.get("token");
     return value!.toBytes();
@@ -1852,15 +1870,6 @@ export class Redeem extends Entity {
     }
   }
 
-  get eventType(): string {
-    let value = this.get("eventType");
-    return value!.toString();
-  }
-
-  set eventType(value: string) {
-    this.set("eventType", Value.fromString(value));
-  }
-
   get token(): Bytes {
     let value = this.get("token");
     return value!.toBytes();
@@ -1982,15 +1991,6 @@ export class Repay extends Entity {
     }
   }
 
-  get eventType(): string {
-    let value = this.get("eventType");
-    return value!.toString();
-  }
-
-  set eventType(value: string) {
-    this.set("eventType", Value.fromString(value));
-  }
-
   get totalBorrows(): BigDecimal {
     let value = this.get("totalBorrows");
     return value!.toBigDecimal();
@@ -2093,15 +2093,6 @@ export class Borrow extends Entity {
 
   set pool(value: Bytes) {
     this.set("pool", Value.fromBytes(value));
-  }
-
-  get eventType(): string {
-    let value = this.get("eventType");
-    return value!.toString();
-  }
-
-  set eventType(value: string) {
-    this.set("eventType", Value.fromString(value));
   }
 
   get positionId(): BigInt {
