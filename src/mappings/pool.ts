@@ -44,8 +44,8 @@ export function handleLend(event: LendEvent): void {
     pool = setPoolData(event.address, pool);
     pool.txCount = pool.txCount.plus(ONE_BI);
     if (token != null) {
-      pool.cumulativeuLendUSD = pool.cumulativeuLendUSD.plus(
-        event.params._amount.times(token.priceUSD).toBigDecimal()
+      pool.cumulativeLendUSD = pool.cumulativeLendUSD.plus(
+        event.params._amount.toBigDecimal().times(token.priceUSD)
       );
     }
     pool.save();
@@ -53,7 +53,7 @@ export function handleLend(event: LendEvent): void {
   // update or set position
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position,event);
+    position = setPosition(position, event);
   }
   position = updateLendPosition(position, event);
 
@@ -80,8 +80,8 @@ export function handleBorrow(event: BorrowEvent): void {
     pool = setPoolData(event.address, pool);
     pool.txCount = pool.txCount.plus(ONE_BI);
     if (token != null) {
-      pool.cumulativeuLendUSD = pool.cumulativeuLendUSD.plus(
-        event.params._amount.times(token.priceUSD).toBigDecimal()
+      pool.cumulativeLendUSD = pool.cumulativeLendUSD.plus(
+        event.params._amount.toBigDecimal().times(token.priceUSD)
       );
     }
     pool.save();
@@ -120,7 +120,7 @@ export function handleRepay(event: RepayEvent): void {
 
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position,event);
+    position = setPosition(position, event);
   }
   position = updateRepayPosition(event, position);
 
@@ -150,7 +150,7 @@ export function handleRedeem(event: RedeemEvent): void {
 
   if (position == null) {
     position = new Position(event.params._positionID.toString());
-    position = setPosition(position,event);
+    position = setPosition(position, event);
   }
   position = updateRedeemPosition(event, position);
 

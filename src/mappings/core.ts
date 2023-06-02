@@ -22,6 +22,7 @@ import {
 import { Pool as PoolTemplate } from '../../generated/templates';
 import {
   coreAddress,
+  ONE_BD,
   ZERO_BD,
   ZERO_BI,
 } from '../utils/constants';
@@ -157,11 +158,12 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   entity.totalValueLockedUSD = ZERO_BD;
   entity.cumulativeSupplySideRevenueUSD = ZERO_BD;
   entity.totalLendBalanceUSD = ZERO_BD;
-  entity.cumulativeuLendUSD = ZERO_BD;
+  entity.cumulativeLendUSD = ZERO_BD;
   entity.totalBorrowBalanceUSD = ZERO_BD;
   entity.cumulativeBorrowUSD = ZERO_BD;
   entity.cumulativeLiquidateUSD = ZERO_BD;
-  entity.fullLiquidity0 = ZERO_BI;
+  entity.relativeToken0Price = ONE_BD;
+  entity.relativeToken1Price = ONE_BD;
 
   // entity = setPoolData(poolAddress, entity);
 

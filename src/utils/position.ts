@@ -22,8 +22,13 @@ import {
   Position,
   Position__positionResult_positionDataStruct,
 } from '../../generated/Position/Position';
+import { getUserShare } from './pool';
+import { getAssetOracle } from './oracle';
 
-export function setPosition(entity: PositionSchema, event: ethereum.Event): PositionSchema {
+export function setPosition(
+  entity: PositionSchema,
+  event: ethereum.Event
+): PositionSchema {
   entity.owner = event.transaction.from;
   entity.pool = event.address;
   entity.hashOpened = ADDRESS_ZERO;
@@ -36,12 +41,22 @@ export function setPosition(entity: PositionSchema, event: ethereum.Event): Posi
   entity.lendBalance1 = ZERO_BD;
   entity.borrowBalance0 = ZERO_BD;
   entity.borrowBalance1 = ZERO_BD;
+  entity.lendShare0 = ZERO_BD;
+  entity.lendShare1 = ZERO_BD;
+  entity.borrowShare0 = ZERO_BD;
+  entity.borrowShare1 = ZERO_BD;
   entity.lendCount = ZERO_BI;
   entity.redeemCount = ZERO_BI;
   entity.repayCount = ZERO_BI;
   entity.borrowCount = ZERO_BI;
   entity.liquidationCount = ZERO_BI;
   entity.currentLTV = ZERO_BD;
+  entity.interestEarned0 = ZERO_BD;
+  entity.interestEarned1 = ZERO_BD;
+  entity.intersetPaid0 = ZERO_BD;
+  entity.intersetPaid1 = ZERO_BD;
+  entity.relativeToken0Price = ZERO_BD;
+  entity.relativeToken1Price = ZERO_BD;
   entity.healthFactor0 = BigDecimal.fromString(
     '115792089237316195423570985008687900000000000000000000000000000000000000000000'
   );
@@ -60,6 +75,7 @@ export function updateLendPosition(
     event.params._positionID,
     event.address
   );
+  const userShare = getUserShare(event.params._positionID, event.address);
   let token0 = Token.load(positionData.token0);
   let token1 = Token.load(positionData.token1);
 
@@ -74,27 +90,53 @@ export function updateLendPosition(
   }
   position.lendCount = position.lendCount.plus(ONE_BI);
 
+  if (token0 != null && token1 != null) {
+    position.token0 = positionData.token0;
+    position.token1 = positionData.token1;
+  }
+
   position.liquidationCount = ZERO_BI;
   position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
   position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
   position.lendBalance0 = positionData.lendBalance0.toBigDecimal();
   position.lendBalance1 = positionData.lendBalance1.toBigDecimal();
-
-  if (event.params._asset == positionData.token0 && token0 != null) {
+  position.lendShare0 = userShare.get_lendShare0().toBigDecimal();
+  position.lendShare1 = userShare.get_lendShare1().toBigDecimal();
+  if (positionData.lendBalance0 > ZERO_BI) {
+    position.interestEarned0 = positionData.lendBalance0
+      .toBigDecimal()
+      .minus(userShare.get_lendShare0().toBigDecimal());
+  }
+  if (positionData.lendBalance1 > ZERO_BI) {
+    position.interestEarned1 = positionData.lendBalance1
+      .toBigDecimal()
+      .minus(userShare.get_lendShare1().toBigDecimal());
+  }
+  if (event.params._asset == positionData.token0) {
     position.currentLTV = getCurrentLTV(
       positionData.lendBalance0,
       positionData.borrowBalance1,
-      token0.priceUSD
+      positionData.token0,
+      positionData.token1
     );
   } else {
-    if (token1 != null) {
-      position.currentLTV = getCurrentLTV(
-        positionData.lendBalance1,
-        positionData.borrowBalance0,
-        token1.priceUSD
-      );
-    }
+    position.currentLTV = getCurrentLTV(
+      positionData.lendBalance1,
+      positionData.borrowBalance0,
+      positionData.token0,
+      positionData.token1
+    );
   }
+  position.relativeToken0Price = getAssetOracle(
+    Address.fromBytes(positionData.token0),
+    Address.fromBytes(positionData.token1)
+  );
+  position.relativeToken1Price = ONE_BD.div(
+    getAssetOracle(
+      Address.fromBytes(positionData.token0),
+      Address.fromBytes(positionData.token1)
+    )
+  );
   return position;
 }
 
@@ -108,6 +150,7 @@ export function updateBorrowPosition(
     event.params._positionID,
     event.address
   );
+  const userShare = getUserShare(event.params._positionID, event.address);
 
   let token0 = Token.load(positionData.token0);
   let token1 = Token.load(positionData.token1);
@@ -115,22 +158,52 @@ export function updateBorrowPosition(
   position.borrowBalance1 = positionData.borrowBalance1.toBigDecimal();
   position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
   position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
+  position.borrowShare0 = userShare.get_borrowShare0().toBigDecimal();
+  position.borrowShare1 = userShare.get_borrowShare1().toBigDecimal();
+
+  if (positionData.borrowBalance0 > ZERO_BI) {
+    position.intersetPaid0 = positionData.borrowBalance0
+      .toBigDecimal()
+      .minus(userShare.get_borrowShare0().toBigDecimal());
+  }
+  if (positionData.borrowBalance1 > ZERO_BI) {
+    position.intersetPaid1 = positionData.borrowBalance1
+      .toBigDecimal()
+      .minus(userShare.get_borrowShare1().toBigDecimal());
+  }
 
   if (event.params._asset == positionData.token0 && token1 != null) {
+    let price = ONE_BD.div(
+      getAssetOracle(event.params._asset, event.params._asset)
+    );
     position.currentLTV = getCurrentLTV(
       positionData.lendBalance1,
       positionData.borrowBalance0,
-      token1.priceUSD
+      positionData.token0,
+      positionData.token1
     );
   } else {
     if (token0 != null) {
       position.currentLTV = getCurrentLTV(
         positionData.lendBalance0,
         positionData.borrowBalance1,
-        token0.priceUSD
+        positionData.token0,
+        positionData.token1
       );
     }
   }
+  // if (token0 != null && token1 != null) {
+  position.relativeToken0Price = getAssetOracle(
+    Address.fromBytes(positionData.token0),
+    Address.fromBytes(positionData.token1)
+  );
+  position.relativeToken1Price = ONE_BD.div(
+    getAssetOracle(
+      Address.fromBytes(positionData.token0),
+      Address.fromBytes(positionData.token1)
+    )
+  );
+  // }
   return position;
 }
 
@@ -144,6 +217,7 @@ export function updateRedeemPosition(
     event.params._positionID,
     event.address
   );
+  const userShare = getUserShare(event.params._positionID, event.address);
 
   let token0 = Token.load(positionData.token0);
   let token1 = Token.load(positionData.token1);
@@ -151,23 +225,52 @@ export function updateRedeemPosition(
   position.lendBalance1 = positionData.lendBalance1.toBigDecimal();
   position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
   position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
+  position.lendShare0 = userShare.get_lendShare0().toBigDecimal();
+  position.lendShare1 = userShare.get_lendShare1().toBigDecimal();
+
+  if (positionData.lendBalance0 > ZERO_BI) {
+    position.interestEarned0 = positionData.lendBalance0
+      .toBigDecimal()
+      .minus(userShare.get_lendShare0().toBigDecimal());
+  }
+  if (positionData.lendBalance1 > ZERO_BI) {
+    position.interestEarned1 = positionData.lendBalance1
+      .toBigDecimal()
+      .minus(userShare.get_lendShare1().toBigDecimal());
+  }
   // if lendbalance of 0 and 1 is zero then the position have closed;
   if (event.params._asset == positionData.token0 && token0 != null) {
     position.currentLTV = getCurrentLTV(
       positionData.lendBalance0,
       positionData.borrowBalance1,
-      token0.priceUSD
+      positionData.token0,
+      positionData.token1
     );
   } else {
     if (token1 != null) {
+      let price = ONE_BD.div(
+        getAssetOracle(event.params._asset, event.params._asset)
+      );
       position.currentLTV = getCurrentLTV(
         positionData.lendBalance1,
         positionData.borrowBalance0,
-        token1.priceUSD
+        positionData.token0,
+        positionData.token1
       );
     }
   }
-
+  // if (token0 != null && token1 != null) {
+  position.relativeToken0Price = getAssetOracle(
+    Address.fromBytes(positionData.token0),
+    Address.fromBytes(positionData.token1)
+  );
+  position.relativeToken1Price = ONE_BD.div(
+    getAssetOracle(
+      Address.fromBytes(positionData.token0),
+      Address.fromBytes(positionData.token1)
+    )
+  );
+  // }
   return position;
 }
 
@@ -181,6 +284,7 @@ export function updateRepayPosition(
     event.params._positionID,
     event.address
   );
+  const userShare = getUserShare(event.params._positionID, event.address);
 
   let token0 = Token.load(positionData.token0);
   let token1 = Token.load(positionData.token1);
@@ -188,41 +292,68 @@ export function updateRepayPosition(
   position.borrowBalance1 = positionData.borrowBalance1.toBigDecimal();
   position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
   position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
+  position.borrowShare0 = userShare.get_borrowShare0().toBigDecimal();
+  position.borrowShare1 = userShare.get_borrowShare1().toBigDecimal();
+
+  if (positionData.borrowBalance0 > ZERO_BI) {
+    position.intersetPaid0 = positionData.borrowBalance0
+      .toBigDecimal()
+      .minus(userShare.get_borrowShare0().toBigDecimal());
+  }
+  if (positionData.borrowBalance1 > ZERO_BI) {
+    position.intersetPaid1 = positionData.borrowBalance1
+      .toBigDecimal()
+      .minus(userShare.get_borrowShare1().toBigDecimal());
+  }
+
   // borrow position will close here if borrow balance is zero for token 0 and 1
   if (event.params._asset == positionData.token0 && token1 != null) {
+    let price = ONE_BD.div(
+      getAssetOracle(event.params._asset, event.params._asset)
+    );
     position.currentLTV = getCurrentLTV(
       positionData.lendBalance1,
       positionData.borrowBalance0,
-      token1.priceUSD
+      positionData.token0,
+      positionData.token1
     );
   } else {
     if (token0 != null) {
       position.currentLTV = getCurrentLTV(
         positionData.lendBalance0,
         positionData.borrowBalance1,
-        token0.priceUSD
+        positionData.token0,
+        positionData.token1
       );
     }
   }
-
+  // if (token0 != null && token1 != null) {
+  position.relativeToken0Price = getAssetOracle(
+    Address.fromBytes(positionData.token0),
+    Address.fromBytes(positionData.token1)
+  );
+  position.relativeToken1Price = ONE_BD.div(
+    getAssetOracle(
+      Address.fromBytes(positionData.token0),
+      Address.fromBytes(positionData.token1)
+    )
+  );
+  // }
   return position;
 }
 
 export function getCurrentLTV(
   lendValue: BigInt,
   borrowValue: BigInt,
-  price: BigInt
+  token0: Address,
+  token1: Address
 ): BigDecimal {
+  const assetPrice = getAssetOracle(token0, token1);
   const currentLTV = borrowValue.toBigDecimal().gt(ZERO_BD)
-    ? borrowValue
-        .toBigDecimal()
-        .div(
-          lendValue
-            .toBigDecimal()
-            .times(price.toBigDecimal().times(exponentToBigDecimal(BI_10)))
-        )
+    ? borrowValue.toBigDecimal().div(lendValue.toBigDecimal().times(assetPrice))
     : ZERO_BD;
   return currentLTV;
+  // return price;
 }
 
 export function getPositionData(

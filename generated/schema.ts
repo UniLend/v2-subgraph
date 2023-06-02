@@ -589,13 +589,13 @@ export class Token extends Entity {
     this.set("totalPoolsLiquidityUSD", Value.fromBigDecimal(value));
   }
 
-  get priceUSD(): BigInt {
+  get priceUSD(): BigDecimal {
     let value = this.get("priceUSD");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set priceUSD(value: BigInt) {
-    this.set("priceUSD", Value.fromBigInt(value));
+  set priceUSD(value: BigDecimal) {
+    this.set("priceUSD", Value.fromBigDecimal(value));
   }
 
   get lentCount(): BigInt {
@@ -995,15 +995,6 @@ export class Pool extends Entity {
     this.set("UtilizationRate1", Value.fromBigDecimal(value));
   }
 
-  get fullLiquidity0(): BigInt {
-    let value = this.get("fullLiquidity0");
-    return value!.toBigInt();
-  }
-
-  set fullLiquidity0(value: BigInt) {
-    this.set("fullLiquidity0", Value.fromBigInt(value));
-  }
-
   get totalValueLockedUSD(): BigDecimal {
     let value = this.get("totalValueLockedUSD");
     return value!.toBigDecimal();
@@ -1031,13 +1022,13 @@ export class Pool extends Entity {
     this.set("totalLendBalanceUSD", Value.fromBigDecimal(value));
   }
 
-  get cumulativeuLendUSD(): BigDecimal {
-    let value = this.get("cumulativeuLendUSD");
+  get cumulativeLendUSD(): BigDecimal {
+    let value = this.get("cumulativeLendUSD");
     return value!.toBigDecimal();
   }
 
-  set cumulativeuLendUSD(value: BigDecimal) {
-    this.set("cumulativeuLendUSD", Value.fromBigDecimal(value));
+  set cumulativeLendUSD(value: BigDecimal) {
+    this.set("cumulativeLendUSD", Value.fromBigDecimal(value));
   }
 
   get totalBorrowBalanceUSD(): BigDecimal {
@@ -1065,6 +1056,24 @@ export class Pool extends Entity {
 
   set cumulativeLiquidateUSD(value: BigDecimal) {
     this.set("cumulativeLiquidateUSD", Value.fromBigDecimal(value));
+  }
+
+  get relativeToken0Price(): BigDecimal {
+    let value = this.get("relativeToken0Price");
+    return value!.toBigDecimal();
+  }
+
+  set relativeToken0Price(value: BigDecimal) {
+    this.set("relativeToken0Price", Value.fromBigDecimal(value));
+  }
+
+  get relativeToken1Price(): BigDecimal {
+    let value = this.get("relativeToken1Price");
+    return value!.toBigDecimal();
+  }
+
+  set relativeToken1Price(value: BigDecimal) {
+    this.set("relativeToken1Price", Value.fromBigDecimal(value));
   }
 
   get PoolDailySnapshot(): Array<string> {
@@ -1225,6 +1234,24 @@ export class Position extends Entity {
     this.set("pool", Value.fromBytes(value));
   }
 
+  get token0(): Bytes {
+    let value = this.get("token0");
+    return value!.toBytes();
+  }
+
+  set token0(value: Bytes) {
+    this.set("token0", Value.fromBytes(value));
+  }
+
+  get token1(): Bytes {
+    let value = this.get("token1");
+    return value!.toBytes();
+  }
+
+  set token1(value: Bytes) {
+    this.set("token1", Value.fromBytes(value));
+  }
+
   get hashOpened(): Bytes {
     let value = this.get("hashOpened");
     return value!.toBytes();
@@ -1267,6 +1294,24 @@ export class Position extends Entity {
 
   set timestampOpened(value: BigInt) {
     this.set("timestampOpened", Value.fromBigInt(value));
+  }
+
+  get relativeToken0Price(): BigDecimal {
+    let value = this.get("relativeToken0Price");
+    return value!.toBigDecimal();
+  }
+
+  set relativeToken0Price(value: BigDecimal) {
+    this.set("relativeToken0Price", Value.fromBigDecimal(value));
+  }
+
+  get relativeToken1Price(): BigDecimal {
+    let value = this.get("relativeToken1Price");
+    return value!.toBigDecimal();
+  }
+
+  set relativeToken1Price(value: BigDecimal) {
+    this.set("relativeToken1Price", Value.fromBigDecimal(value));
   }
 
   get blockNumberClosed(): BigInt | null {
@@ -1337,6 +1382,78 @@ export class Position extends Entity {
 
   set borrowBalance1(value: BigDecimal) {
     this.set("borrowBalance1", Value.fromBigDecimal(value));
+  }
+
+  get lendShare0(): BigDecimal {
+    let value = this.get("lendShare0");
+    return value!.toBigDecimal();
+  }
+
+  set lendShare0(value: BigDecimal) {
+    this.set("lendShare0", Value.fromBigDecimal(value));
+  }
+
+  get lendShare1(): BigDecimal {
+    let value = this.get("lendShare1");
+    return value!.toBigDecimal();
+  }
+
+  set lendShare1(value: BigDecimal) {
+    this.set("lendShare1", Value.fromBigDecimal(value));
+  }
+
+  get borrowShare0(): BigDecimal {
+    let value = this.get("borrowShare0");
+    return value!.toBigDecimal();
+  }
+
+  set borrowShare0(value: BigDecimal) {
+    this.set("borrowShare0", Value.fromBigDecimal(value));
+  }
+
+  get borrowShare1(): BigDecimal {
+    let value = this.get("borrowShare1");
+    return value!.toBigDecimal();
+  }
+
+  set borrowShare1(value: BigDecimal) {
+    this.set("borrowShare1", Value.fromBigDecimal(value));
+  }
+
+  get interestEarned0(): BigDecimal {
+    let value = this.get("interestEarned0");
+    return value!.toBigDecimal();
+  }
+
+  set interestEarned0(value: BigDecimal) {
+    this.set("interestEarned0", Value.fromBigDecimal(value));
+  }
+
+  get interestEarned1(): BigDecimal {
+    let value = this.get("interestEarned1");
+    return value!.toBigDecimal();
+  }
+
+  set interestEarned1(value: BigDecimal) {
+    this.set("interestEarned1", Value.fromBigDecimal(value));
+  }
+
+  get intersetPaid0(): BigDecimal {
+    let value = this.get("intersetPaid0");
+    return value!.toBigDecimal();
+  }
+
+  set intersetPaid0(value: BigDecimal) {
+    this.set("intersetPaid0", Value.fromBigDecimal(value));
+  }
+
+  get intersetPaid1(): BigDecimal {
+    let value = this.get("intersetPaid1");
+    return value!.toBigDecimal();
+  }
+
+  set intersetPaid1(value: BigDecimal) {
+    this.set("intersetPaid1", Value.fromBigDecimal(value));
   }
 
   get currentLTV(): BigDecimal {
@@ -2200,13 +2317,13 @@ export class AssetOracle extends Entity {
     this.set("id", Value.fromBytes(value));
   }
 
-  get tokenPrice(): BigInt {
+  get tokenPrice(): BigDecimal {
     let value = this.get("tokenPrice");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set tokenPrice(value: BigInt) {
-    this.set("tokenPrice", Value.fromBigInt(value));
+  set tokenPrice(value: BigDecimal) {
+    this.set("tokenPrice", Value.fromBigDecimal(value));
   }
 
   get asset(): Bytes {
@@ -2216,6 +2333,15 @@ export class AssetOracle extends Entity {
 
   set asset(value: Bytes) {
     this.set("asset", Value.fromBytes(value));
+  }
+
+  get relativeTokenPrice0(): BigDecimal {
+    let value = this.get("relativeTokenPrice0");
+    return value!.toBigDecimal();
+  }
+
+  set relativeTokenPrice0(value: BigDecimal) {
+    this.set("relativeTokenPrice0", Value.fromBigDecimal(value));
   }
 }
 

@@ -1,4 +1,8 @@
-import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
+import { Address, BigDecimal, BigInt } from '@graphprotocol/graph-ts';
+import {
+  Pool,
+  Pool__userSharesOftokensResult,
+} from '../../generated/templates/Pool/Pool';
 import {
   BD_100,
   BD_18,
@@ -71,4 +75,13 @@ export function getLendApy(
   }
   let result = borrowApy.div(fullLiquidity.div(totalBorrow.toBigDecimal()));
   return result;
+}
+
+export function getUserShare(
+  nftId: BigInt,
+  poolAddress: Address
+): Pool__userSharesOftokensResult {
+  const contract = Pool.bind(poolAddress);
+  let share = contract.userSharesOftokens(nftId);
+  return share;
 }

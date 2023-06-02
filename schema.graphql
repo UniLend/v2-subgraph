@@ -69,7 +69,7 @@ type Token @entity {
   # liquidity across all pools in derived USD
   totalPoolsLiquidityUSD: BigDecimal!
   # price in usd
-  priceUSD: BigInt!
+  priceUSD: BigDecimal!
   # number of times token lent in all pools
   lentCount: BigInt!
   # number of times token borrowed in all pools
@@ -261,8 +261,6 @@ type Pool @entity {
   " Utilization rate of token1 "
   UtilizationRate1: BigDecimal!
 
-  fullLiquidity0: BigInt!
-
   # " All interest rates / fees allowed in the Pool. Interest rate should be in APY percentage "
   # rates: [InterestRate!]!
 
@@ -276,7 +274,7 @@ type Pool @entity {
   totalLendBalanceUSD: BigDecimal!
 
   " Sum of all historical deposits in USD (only considers deposits and not withdrawals) "
-  cumulativeuLendUSD: BigDecimal!
+  cumulativeLendUSD: BigDecimal!
 
   " Current balance of all borrowed/minted assets (not historical cumulative), in USD "
   totalBorrowBalanceUSD: BigDecimal!
@@ -286,6 +284,12 @@ type Pool @entity {
 
   " Sum of all historical liquidations in USD "
   cumulativeLiquidateUSD: BigDecimal!
+
+  " Relative token0 price "
+  relativeToken0Price: BigDecimal!
+
+  " Relative token1 price "
+  relativeToken1Price: BigDecimal!
 
   # " hourly snapshots of pool data "
   # # poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
@@ -346,6 +350,12 @@ type Position @entity {
   " The pool in which this position was opened "
   pool: Pool!
 
+  " Token0 data "
+  token0: Token!
+
+  " Token1 data "
+  token1: Token!
+
   " The hash of the transaction that opened this position "
   hashOpened: Bytes!
 
@@ -357,6 +367,12 @@ type Position @entity {
 
   " Timestamp when the position was opened "
   timestampOpened: BigInt!
+
+  " Relative token0 price "
+  relativeToken0Price: BigDecimal!
+
+  " Relative token1 price "
+  relativeToken1Price: BigDecimal!
 
   " Block number of when the position was closed (0 if still open) "
   blockNumberClosed: BigInt
@@ -375,6 +391,30 @@ type Position @entity {
 
   " borrow balance of token 1 in this position, in native amounts "
   borrowBalance1: BigDecimal!
+
+  " lendshare of token 0 in this position "
+  lendShare0: BigDecimal!
+
+  " lendshare of token 1 in this position "
+  lendShare1: BigDecimal!
+
+  " borrowshare of token 0 in this position "
+  borrowShare0: BigDecimal!
+
+  " borrowshare of token 1 in this position "
+  borrowShare1: BigDecimal!
+
+  " Interest earned for token0 lend position "
+  interestEarned0: BigDecimal!
+
+  " Interest earned for token1 lend position "
+  interestEarned1: BigDecimal!
+
+  " Interest paid for token0 borrow position "
+  intersetPaid0: BigDecimal!
+
+  " Interest paid for token1 borrow position "
+  intersetPaid1: BigDecimal!
 
   " current ltv of the position "
   currentLTV: BigDecimal!
@@ -564,8 +604,9 @@ type Borrow @entity(immutable: true) {
 
 type AssetOracle @entity(immutable: true) {
   id: Bytes!
-  tokenPrice: BigInt!
+  tokenPrice: BigDecimal!
   asset: Bytes!
+  relativeTokenPrice0: BigDecimal!
 }
 
 type Transfer @entity {
