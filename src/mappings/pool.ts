@@ -7,6 +7,7 @@ import {
   Pool,
   Token,
   Position,
+  LiquidateBorrow,
 } from '../../generated/schema';
 import {
   Lend as LendEvent,
@@ -14,10 +15,12 @@ import {
   Borrow as BorrowEvent,
   Redeem as RedeemEvent,
   InterestUpdate as InterestUpdateEvent,
+  LiquidateBorrow as LiquidateBorrowEvent,
 } from '../../generated/templates/Pool/Pool';
 import { ADDRESS_ZERO, ONE_BI } from '../utils/constants';
 import { setPoolData } from '../utils/helper';
 import {
+  liquidatePositionUpdate,
   setPosition,
   updateBorrowPosition,
   updateLendPosition,
@@ -166,5 +169,23 @@ export function handleInterestUpdate(event: InterestUpdateEvent): void {
   entity.totalBorrows1 = event.params.totalBorrows1.toBigDecimal();
   entity.blockTimestamp = event.block.timestamp;
   entity.blockNumber = event.block.number;
+  entity.save();
+}
+
+export function handleLiquidateBorrow(event: LiquidateBorrowEvent): void {
+  let entity = new LiquidateBorrow(
+    event.params._positionID.toString().concat(event.block.number.toString())
+  );
+  let position = Position.load(event.params._positionID.toString());
+  entity.positionID = event.params._positionID;
+  entity.toPositionID = event.params._toPositionID;
+  entity.repayAmount = event.params.repayAmount.toBigDecimal();
+  entity.seizeAmoutn = event.params.seizeTokens.toBigDecimal();
+  entity.blockTimestamp = event.block.timestamp;
+  entity.blockNumber = event.block.number;
+  if (position != null) {
+    position = liquidatePositionUpdate(event, position);
+    position.save();
+  }
   entity.save();
 }

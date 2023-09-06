@@ -16,8 +16,8 @@ export function handleAssetOracleUpdate(event: AssetOracleUpdatedEvent): void {
   }
   entity.asset = asset;
   entity.relativeTokenPrice0 = getAssetOracle(
-    Address.fromString("0x8dfc548696d2faf0fb54f0f6e4fa36d9295fc4a2"),
-    Address.fromString("0xbcc80ccbde188d34d35018602dc3f56766ba377d")
+    Address.fromString("0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39"),
+    Address.fromString("0xc2132D05D31c914a87C6611C10748AEb04B58e8F")
   );
 
   entity.save();

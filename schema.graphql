@@ -625,3 +625,13 @@ type InterestUpdate @entity(immutable: true) {
   blockTimestamp: BigInt!
   blockNumber: BigInt!
 }
+
+type LiquidateBorrow @entity(immutable: true) {
+  id: ID!
+  positionID: BigInt!
+  toPositionID: BigInt!
+  repayAmount: BigDecimal!
+  seizeAmoutn: BigDecimal!
+  blockTimestamp: BigInt!
+  blockNumber: BigInt!
+}

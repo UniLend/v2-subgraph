@@ -3,6 +3,7 @@ import { Position as PositionSchema, Token } from '../../generated/schema';
 import {
   Borrow as BorrowEvent,
   Lend as LendEvent,
+  LiquidateBorrow as LiquidateBorrowEvent,
   Pool,
   Pool__userHealthFactorResult,
   Redeem as RedeemEvent,
@@ -339,6 +340,22 @@ export function updateRepayPosition(
     )
   );
   // }
+  return position;
+}
+
+export function liquidatePositionUpdate(
+  event: LiquidateBorrowEvent,
+  position: PositionSchema
+): PositionSchema {
+  const positionData = getPositionData(event.params._positionID);
+  const healthFactor = getUserHealthFactor(
+    event.params._positionID,
+    event.address
+  );
+  position.borrowBalance0 = positionData.borrowBalance0.toBigDecimal();
+  position.borrowBalance1 = positionData.borrowBalance1.toBigDecimal();
+  position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
+  position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
   return position;
 }
 
