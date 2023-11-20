@@ -16,15 +16,29 @@
   "matic": {
     "Core": {
       "address": "0x865cB73910e77970f2Bae696Ecf5F89dFb83a5B6",
-      "startBlock": 44623540
+      "startBlock": 44622540
     },
     "Oracle": {
       "address": "0x74b8CaBf44560c76bE9a9B28c215b3Fa41340BD4",
-      "startBlock": 44623540
+      "startBlock": 44622540
     },
     "Position": {
       "address": "0x2994C91f79444d514B0666B1a0362E2BBe2445D3",
-      "startBlock": 44623540
+      "startBlock": 44622540
+    }
+  },
+  "polygon-zkevm-testnet": {
+    "Core": {
+      "address": "0xECF9c681c22D3CcFC53670812E863b0d05828dBC",
+      "startBlock": 3000
+    },
+    "Oracle": {
+      "address": "0x534a6CF97fC2FA2Da632be805eC4B1fAa3481635",
+      "startBlock": 3000
+    },
+    "Position": {
+      "address": "0x9422A2D29d932FeDB8a7e7D2259D24a4B50eF232",
+      "startBlock": 3000
     }
   }
 }

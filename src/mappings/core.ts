@@ -20,14 +20,8 @@ import {
   Token,
 } from '../../generated/schema';
 import { Pool as PoolTemplate } from '../../generated/templates';
-import {
-  coreAddress,
-  ONE_BD,
-  ZERO_BD,
-  ZERO_BI,
-} from '../utils/constants';
-import { setProtocol, setPoolData, setToken } from '../utils/helper';
-import { getTokenSymbol } from '../utils/token';
+import { coreAddress, ONE_BD, ZERO_BD, ZERO_BI } from '../utils/constants';
+import { setProtocol, setToken } from '../utils/helper';
 
 export function handleFlashLoan(event: FlashLoanEvent): void {
   let entity = new FlashLoan(

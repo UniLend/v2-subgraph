@@ -16,7 +16,7 @@ import {
   ZERO_BD,
   ZERO_BI,
 } from './constants';
-import { getTokenSymbol } from './token';
+import { getTokenName, getTokenSymbol } from './token';
 import { getOraclePrice } from './oracle';
 import { Helper } from '../../generated/templates/Pool/Helper';
 import {
@@ -31,6 +31,7 @@ export function setToken(address: Address): Token {
   if (token == null) {
     token = new Token(address);
     token.symbol = getTokenSymbol(address);
+    token.name = getTokenName(address);
     token.decimals = BI_18;
     token.poolCount = ONE_BI;
     token.txCount = ZERO_BI;

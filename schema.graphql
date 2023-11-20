@@ -58,6 +58,8 @@ type Token @entity {
   id: Bytes!
   # token symbol
   symbol: String!
+  # token name
+  name: String!
   # token decimals
   decimals: BigInt!
   # transactions across all pools that include this token

@@ -742,6 +742,19 @@ export class Token extends Entity {
     this.set("symbol", Value.fromString(value));
   }
 
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
   get decimals(): BigInt {
     let value = this.get("decimals");
     if (!value || value.kind == ValueKind.NULL) {

@@ -4,10 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ shubham-rathod1/unilend-polygon",
-    "create-local": "graph create --node http://localhost:8020/ my_unilend",
-    "remove-local": "graph remove --node http://localhost:8020/ my_unilend",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 my_unilend",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ shubham-rathod1/my_unilend",
+    "create-local": "graph create --node http://localhost:8020/ local_subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ local_subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 local_subgraph",
     "test": "graph test"
   },
   "dependencies": {

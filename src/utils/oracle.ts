@@ -19,7 +19,7 @@ export function getOraclePrice(
   let contract = Oracle.bind(oracleAddress);
   let price = ONE_BD;
   if (contract != null) {
-    price = contract.getChainLinkAssetPrice(asset).toBigDecimal();
+    price = contract.try_getChainLinkAssetPrice(asset).value.toBigDecimal();
     if (price != ZERO_BD) {
       return price;
     } else {
