@@ -3,9 +3,11 @@ import {
   Protocol as ProtocolSchema,
   Token,
   Pool as PoolSchema,
+  AssetOracle,
 } from '../../generated/schema';
 import { Pool } from '../../generated/templates/Pool/Pool';
 import {
+  ADDRESS_ZERO,
   BI_18,
   coreAddress,
   helperAddress,
@@ -28,6 +30,7 @@ import {
 
 export function setToken(address: Address): Token {
   let token = Token.load(address);
+  let assetOracle = AssetOracle.load(address);
   if (token == null) {
     token = new Token(address);
     token.symbol = getTokenSymbol(address);
@@ -41,6 +44,11 @@ export function setToken(address: Address): Token {
     token.lentCount = ZERO_BI;
     token.borrowCount = ZERO_BI;
     token.priceUSD = getOraclePrice(Address.fromString(oracleAddress), address);
+  }
+  token.oracleSource = ADDRESS_ZERO; 
+  if(assetOracle == null) {
+  }else {
+    token.oracleSource = assetOracle.source;
   }
   token.poolCount = token.poolCount.plus(ONE_BI);
   token.save();

@@ -858,6 +858,23 @@ export class Token extends Entity {
   set borrowCount(value: BigInt) {
     this.set("borrowCount", Value.fromBigInt(value));
   }
+
+  get oracleSource(): Bytes | null {
+    let value = this.get("oracleSource");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set oracleSource(value: Bytes | null) {
+    if (!value) {
+      this.unset("oracleSource");
+    } else {
+      this.set("oracleSource", Value.fromBytes(<Bytes>value));
+    }
+  }
 }
 
 export class Protocol extends Entity {
@@ -3180,6 +3197,19 @@ export class AssetOracle extends Entity {
 
   set asset(value: Bytes) {
     this.set("asset", Value.fromBytes(value));
+  }
+
+  get source(): Bytes {
+    let value = this.get("source");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set source(value: Bytes) {
+    this.set("source", Value.fromBytes(value));
   }
 
   get relativeTokenPrice0(): BigDecimal {

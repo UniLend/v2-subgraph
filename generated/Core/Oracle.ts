@@ -74,34 +74,13 @@ export class Oracle extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  aPrice(param0: Address, param1: Address): BigInt {
-    let result = super.call("aPrice", "aPrice(address,address):(uint256)", [
-      ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromAddress(param1)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_aPrice(param0: Address, param1: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("aPrice", "aPrice(address,address):(uint256)", [
-      ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromAddress(param1)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getAssetPrice(token0: Address, token1: Address, amount: BigInt): BigInt {
+  getAssetPrice(token1: Address, token0: Address, amount: BigInt): BigInt {
     let result = super.call(
       "getAssetPrice",
       "getAssetPrice(address,address,uint256):(uint256)",
       [
-        ethereum.Value.fromAddress(token0),
         ethereum.Value.fromAddress(token1),
+        ethereum.Value.fromAddress(token0),
         ethereum.Value.fromUnsignedBigInt(amount)
       ]
     );
@@ -110,16 +89,16 @@ export class Oracle extends ethereum.SmartContract {
   }
 
   try_getAssetPrice(
-    token0: Address,
     token1: Address,
+    token0: Address,
     amount: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "getAssetPrice",
       "getAssetPrice(address,address,uint256):(uint256)",
       [
-        ethereum.Value.fromAddress(token0),
         ethereum.Value.fromAddress(token1),
+        ethereum.Value.fromAddress(token0),
         ethereum.Value.fromUnsignedBigInt(amount)
       ]
     );
@@ -168,32 +147,6 @@ export class Oracle extends ethereum.SmartContract {
       "getLatestPrice",
       "getLatestPrice(address):(int256)",
       [ethereum.Value.fromAddress(priceFeed)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getUniswapV3Price(token0: Address, token1: Address): BigInt {
-    let result = super.call(
-      "getUniswapV3Price",
-      "getUniswapV3Price(address,address):(int256)",
-      [ethereum.Value.fromAddress(token0), ethereum.Value.fromAddress(token1)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_getUniswapV3Price(
-    token0: Address,
-    token1: Address
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "getUniswapV3Price",
-      "getUniswapV3Price(address,address):(int256)",
-      [ethereum.Value.fromAddress(token0), ethereum.Value.fromAddress(token1)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -304,82 +257,6 @@ export class SetAssetOraclesCall__Outputs {
   _call: SetAssetOraclesCall;
 
   constructor(call: SetAssetOraclesCall) {
-    this._call = call;
-  }
-}
-
-export class SetTokenPriceCall extends ethereum.Call {
-  get inputs(): SetTokenPriceCall__Inputs {
-    return new SetTokenPriceCall__Inputs(this);
-  }
-
-  get outputs(): SetTokenPriceCall__Outputs {
-    return new SetTokenPriceCall__Outputs(this);
-  }
-}
-
-export class SetTokenPriceCall__Inputs {
-  _call: SetTokenPriceCall;
-
-  constructor(call: SetTokenPriceCall) {
-    this._call = call;
-  }
-
-  get token0(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get token1(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get price(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-}
-
-export class SetTokenPriceCall__Outputs {
-  _call: SetTokenPriceCall;
-
-  constructor(call: SetTokenPriceCall) {
-    this._call = call;
-  }
-}
-
-export class SetTokenPriceBCall extends ethereum.Call {
-  get inputs(): SetTokenPriceBCall__Inputs {
-    return new SetTokenPriceBCall__Inputs(this);
-  }
-
-  get outputs(): SetTokenPriceBCall__Outputs {
-    return new SetTokenPriceBCall__Outputs(this);
-  }
-}
-
-export class SetTokenPriceBCall__Inputs {
-  _call: SetTokenPriceBCall;
-
-  constructor(call: SetTokenPriceBCall) {
-    this._call = call;
-  }
-
-  get token0(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get token1(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get price(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-}
-
-export class SetTokenPriceBCall__Outputs {
-  _call: SetTokenPriceBCall;
-
-  constructor(call: SetTokenPriceBCall) {
     this._call = call;
   }
 }

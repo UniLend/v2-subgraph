@@ -76,6 +76,8 @@ type Token @entity {
   lentCount: BigInt!
   # number of times token borrowed in all pools
   borrowCount: BigInt!
+
+  oracleSource: Bytes 
 }
 
 type Protocol @entity {
@@ -608,6 +610,7 @@ type AssetOracle @entity(immutable: true) {
   id: Bytes!
   tokenPrice: BigDecimal!
   asset: Bytes!
+  source: Bytes!
   relativeTokenPrice0: BigDecimal!
 }
 

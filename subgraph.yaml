@@ -5,11 +5,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Core
-    network: mumbai
+    network: matic
     source:
       abi: Core
-      address: "0x35B7296a75845399b0447a4F5dBCB07b5BcC8B4D"
-      startBlock: 29798329
+      address: "0xE1CA60c8A97b0cC0F444f5e15940E91a1d3feedF"
+      startBlock: 50043218
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -45,11 +45,11 @@ dataSources:
           handler: handlePoolCreated
   - kind: ethereum
     name: Oracle
-    network: mumbai
+    network: matic
     source:
       abi: Oracle
-      address: "0x7F1455c727e58A51dFA168fd711b8B664E1E48BA"
-      startBlock: 29798329
+      address: "0xA2346BAec28Defee3edd2bd1f1de04F76BE60826"
+      startBlock: 50043218
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -73,11 +73,11 @@ dataSources:
           handler: handleAssetOracleUpdate
   - kind: ethereum
     name: Position
-    network: mumbai
+    network: matic
     source:
       abi: Position
-      address: "0x62f5Be0da0302665Dc39F3386B8e3e60aDe4bf7B"
-      startBlock: 29798329
+      address: "0x014f8d8F4A5B37B8b6217232cffd5d376Ec82209"
+      startBlock: 50043218
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -98,7 +98,7 @@ dataSources:
 templates:
   - name: Pool
     kind: ethereum/contract
-    network: mumbai
+    network: matic
     source:
       abi: Pool
     mapping:
