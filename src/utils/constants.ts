@@ -1,8 +1,8 @@
 import { Address, BigDecimal, BigInt, ethereum } from '@graphprotocol/graph-ts';
 
-export const positionAddress = '0x014f8d8F4A5B37B8b6217232cffd5d376Ec82209';
+export const positionAddress = '0x864058b2fa9033D84Bc0cd6B92c88a697e2ac0fe';
 export const oracleAddress = '0xA2346BAec28Defee3edd2bd1f1de04F76BE60826';
-export const coreAddress = '0xE1CA60c8A97b0cC0F444f5e15940E91a1d3feedF';
+export const coreAddress = '0xA9d39A0088466cbbB66266dB6C449f2645AF11c4';
 export const ADDRESS_ZERO = Address.fromString(
   '0x0000000000000000000000000000000000000000'
 );

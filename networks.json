@@ -13,9 +13,10 @@
       "startBlock": 29798329
     }
   },
+ 
   "matic": {
     "Core": {
-      "address": "0xE1CA60c8A97b0cC0F444f5e15940E91a1d3feedF",
+      "address": "0xA9d39A0088466cbbB66266dB6C449f2645AF11c4",
       "startBlock": 50043218
     },
     "Oracle": {
@@ -23,7 +24,7 @@
       "startBlock": 50043218
     },
     "Position": {
-      "address": "0x014f8d8F4A5B37B8b6217232cffd5d376Ec82209",
+      "address": "0x864058b2fa9033D84Bc0cd6B92c88a697e2ac0fe",
       "startBlock": 50043218
     }
   },
