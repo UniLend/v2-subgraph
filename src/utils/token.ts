@@ -1,7 +1,8 @@
-import { Address } from '@graphprotocol/graph-ts';
+import { Address, BigInt } from '@graphprotocol/graph-ts';
 import { ERC20 } from '../../generated/Core/ERC20';
 import { ERC20SymbolBytes } from '../../generated/Core/ERC20SymbolBytes';
 import { ERC20NameBytes } from '../../generated/Core/ERC20NameBytes';
+import { numToBD } from './pool';
 
 export function isNullEthValue(value: string): boolean {
   return (
@@ -51,4 +52,13 @@ export function getTokenName(tokenAddress: Address): string {
     nameValue = nameResult.value;
   }
   return nameValue;
+}
+
+export function getTokenDecimal(tokenAddress: Address): i32 {
+  let contract = ERC20.bind(tokenAddress);
+  // let contractNameBytes = ERC20NameBytes.bind(tokenAddress);
+  // let nameValue = 'unknown';
+  // let nameResult = contract.try_name();
+  let decimal = contract.decimals();
+  return decimal;
 }

@@ -18,10 +18,9 @@ export function handleAssetOracleUpdate(event: AssetOracleUpdatedEvent): void {
   }
   entity.asset = asset;
   entity.source = source;
-  entity.relativeTokenPrice0 = getAssetOracle(
-    Address.fromString('0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39'),
-    Address.fromString('0xc2132D05D31c914a87C6611C10748AEb04B58e8F')
-  );
-
+  // entity.relativeTokenPrice0 = getAssetOracle(
+  //   Address.fromString('0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39'),
+  //   Address.fromString('0xc2132D05D31c914a87C6611C10748AEb04B58e8F')
+  // );
   entity.save();
 }

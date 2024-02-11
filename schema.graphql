@@ -61,7 +61,7 @@ type Token @entity {
   # token name
   name: String!
   # token decimals
-  decimals: BigInt!
+  decimals: Int!
   # transactions across all pools that include this token
   txCount: BigInt!
   # number of pools containing this token
@@ -289,11 +289,11 @@ type Pool @entity {
   " Sum of all historical liquidations in USD "
   cumulativeLiquidateUSD: BigDecimal!
 
-  " Relative token0 price "
-  relativeToken0Price: BigDecimal!
+  # " Relative token0 price "
+  # relativeToken0Price: BigDecimal!
 
-  " Relative token1 price "
-  relativeToken1Price: BigDecimal!
+  # " Relative token1 price "
+  # relativeToken1Price: BigDecimal!
 
   # " hourly snapshots of pool data "
   # # poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
@@ -372,11 +372,11 @@ type Position @entity {
   " Timestamp when the position was opened "
   timestampOpened: BigInt!
 
-  " Relative token0 price "
-  relativeToken0Price: BigDecimal!
+  # " Relative token0 price "
+  # relativeToken0Price: BigDecimal!
 
-  " Relative token1 price "
-  relativeToken1Price: BigDecimal!
+  # " Relative token1 price "
+  # relativeToken1Price: BigDecimal!
 
   " Block number of when the position was closed (0 if still open) "
   blockNumberClosed: BigInt
@@ -611,7 +611,7 @@ type AssetOracle @entity(immutable: true) {
   tokenPrice: BigDecimal!
   asset: Bytes!
   source: Bytes!
-  relativeTokenPrice0: BigDecimal!
+  # relativeTokenPrice0: BigDecimal!
 }
 
 type Transfer @entity {

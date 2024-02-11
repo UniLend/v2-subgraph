@@ -16,30 +16,30 @@
 
   "matic": {
     "Core": {
-      "address": "0xA7261e3cda9A4E2C81a82791DA6f2aaAA10A3cb3",
-      "startBlock": 52835890
+      "address": "0x17dad892347803551CeEE2D377d010034df64347",
+      "startBlock": 52985062
     },
     "Oracle": {
-      "address": "0xd13f8e31DA8837F76cF27034CE5C545BB5caDf38",
-      "startBlock": 52835890
+      "address": "0x4C6E05732b84907B6FE4228EcCa926B557BB9C27",
+      "startBlock": 52985062
     },
     "Position": {
-      "address": "0x2EafE683A4c65B03C9b7315881704Ace33936322",
-      "startBlock": 52835890
+      "address": "0x77B6569F0dbC4F265a575a84540c2A0Cae116a90",
+      "startBlock": 52985062
     }
   },
   "mainnet": {
     "Core": {
-      "address": "0x9988eE829fbB3e37673C5240C7e695D35b0CEBCa",
-      "startBlock": 19064816
+      "address": "0x26883aD38ef58f4E33ce533f64E16c61319c99f6",
+      "startBlock": 53306007
     },
     "Oracle": {
-      "address": "0xf78516C94D05f3c7a81754Af6d8579f1818acBa5",
-      "startBlock": 19064816
+      "address": "0x86148E1eF9D102b3Cf1345FBb8456329C3dEEd29",
+      "startBlock": 53306007
     },
     "Position": {
-      "address": "0xF99a7a323a95DabCdC2a86d18D913A6780CBdCA9",
-      "startBlock": 19064816
+      "address": "0x4B915E92a80498ca5e13c2f2715706A56C05659c",
+      "startBlock": 53306007
     }
   },
   "polygon-zkevm-testnet": {

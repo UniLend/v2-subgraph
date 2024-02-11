@@ -8,8 +8,8 @@ dataSources:
     network: matic
     source:
       abi: Core
-      address: "0xA7261e3cda9A4E2C81a82791DA6f2aaAA10A3cb3"
-      startBlock: 52835890
+      address: "0x17dad892347803551CeEE2D377d010034df64347"
+      startBlock: 52985062
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -48,8 +48,8 @@ dataSources:
     network: matic
     source:
       abi: Oracle
-      address: "0xd13f8e31DA8837F76cF27034CE5C545BB5caDf38"
-      startBlock: 52835890
+      address: "0x4C6E05732b84907B6FE4228EcCa926B557BB9C27"
+      startBlock: 52985062
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -76,8 +76,8 @@ dataSources:
     network: matic
     source:
       abi: Position
-      address: "0x2EafE683A4c65B03C9b7315881704Ace33936322"
-      startBlock: 52835890
+      address: "0x77B6569F0dbC4F265a575a84540c2A0Cae116a90"
+      startBlock: 52985062
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

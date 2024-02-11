@@ -755,17 +755,17 @@ export class Token extends Entity {
     this.set("name", Value.fromString(value));
   }
 
-  get decimals(): BigInt {
+  get decimals(): i32 {
     let value = this.get("decimals");
     if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
+      return 0;
     } else {
-      return value.toBigInt();
+      return value.toI32();
     }
   }
 
-  set decimals(value: BigInt) {
-    this.set("decimals", Value.fromBigInt(value));
+  set decimals(value: i32) {
+    this.set("decimals", Value.fromI32(value));
   }
 
   get txCount(): BigInt {
@@ -1506,32 +1506,6 @@ export class Pool extends Entity {
     this.set("cumulativeLiquidateUSD", Value.fromBigDecimal(value));
   }
 
-  get relativeToken0Price(): BigDecimal {
-    let value = this.get("relativeToken0Price");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigDecimal();
-    }
-  }
-
-  set relativeToken0Price(value: BigDecimal) {
-    this.set("relativeToken0Price", Value.fromBigDecimal(value));
-  }
-
-  get relativeToken1Price(): BigDecimal {
-    let value = this.get("relativeToken1Price");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigDecimal();
-    }
-  }
-
-  set relativeToken1Price(value: BigDecimal) {
-    this.set("relativeToken1Price", Value.fromBigDecimal(value));
-  }
-
   get PoolDailySnapshot(): Array<string> {
     let value = this.get("PoolDailySnapshot");
     if (!value || value.kind == ValueKind.NULL) {
@@ -1810,32 +1784,6 @@ export class Position extends Entity {
 
   set timestampOpened(value: BigInt) {
     this.set("timestampOpened", Value.fromBigInt(value));
-  }
-
-  get relativeToken0Price(): BigDecimal {
-    let value = this.get("relativeToken0Price");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigDecimal();
-    }
-  }
-
-  set relativeToken0Price(value: BigDecimal) {
-    this.set("relativeToken0Price", Value.fromBigDecimal(value));
-  }
-
-  get relativeToken1Price(): BigDecimal {
-    let value = this.get("relativeToken1Price");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigDecimal();
-    }
-  }
-
-  set relativeToken1Price(value: BigDecimal) {
-    this.set("relativeToken1Price", Value.fromBigDecimal(value));
   }
 
   get blockNumberClosed(): BigInt | null {
@@ -3210,19 +3158,6 @@ export class AssetOracle extends Entity {
 
   set source(value: Bytes) {
     this.set("source", Value.fromBytes(value));
-  }
-
-  get relativeTokenPrice0(): BigDecimal {
-    let value = this.get("relativeTokenPrice0");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigDecimal();
-    }
-  }
-
-  set relativeTokenPrice0(value: BigDecimal) {
-    this.set("relativeTokenPrice0", Value.fromBigDecimal(value));
   }
 }
 

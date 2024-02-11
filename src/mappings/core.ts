@@ -156,8 +156,8 @@ export function handlePoolCreated(event: PoolCreatedEvent): void {
   entity.totalBorrowBalanceUSD = ZERO_BD;
   entity.cumulativeBorrowUSD = ZERO_BD;
   entity.cumulativeLiquidateUSD = ZERO_BD;
-  entity.relativeToken0Price = ONE_BD;
-  entity.relativeToken1Price = ONE_BD;
+  // entity.relativeToken0Price = ONE_BD;
+  // entity.relativeToken1Price = ONE_BD;
 
   // entity = setPoolData(poolAddress, entity);
 

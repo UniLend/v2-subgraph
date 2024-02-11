@@ -56,8 +56,8 @@ export function setPosition(
   entity.interestEarned1 = ZERO_BD;
   entity.intersetPaid0 = ZERO_BD;
   entity.intersetPaid1 = ZERO_BD;
-  entity.relativeToken0Price = ZERO_BD;
-  entity.relativeToken1Price = ZERO_BD;
+  // entity.relativeToken0Price = ZERO_BD;
+  // entity.relativeToken1Price = ZERO_BD;
   entity.healthFactor0 = BigDecimal.fromString(
     '115792089237316195423570985008687900000000000000000000000000000000000000000000'
   );
@@ -128,16 +128,16 @@ export function updateLendPosition(
       positionData.token1
     );
   }
-  position.relativeToken0Price = getAssetOracle(
-    Address.fromBytes(positionData.token0),
-    Address.fromBytes(positionData.token1)
-  );
-  position.relativeToken1Price = ONE_BD.div(
-    getAssetOracle(
-      Address.fromBytes(positionData.token0),
-      Address.fromBytes(positionData.token1)
-    )
-  );
+  // position.relativeToken0Price = getAssetOracle(
+  //   Address.fromBytes(positionData.token0),
+  //   Address.fromBytes(positionData.token1)
+  // );
+  // position.relativeToken1Price = ONE_BD.div(
+  //   getAssetOracle(
+  //     Address.fromBytes(positionData.token0),
+  //     Address.fromBytes(positionData.token1)
+  //   )
+  // );
   return position;
 }
 
@@ -194,16 +194,16 @@ export function updateBorrowPosition(
     }
   }
   // if (token0 != null && token1 != null) {
-  position.relativeToken0Price = getAssetOracle(
-    Address.fromBytes(positionData.token0),
-    Address.fromBytes(positionData.token1)
-  );
-  position.relativeToken1Price = ONE_BD.div(
-    getAssetOracle(
-      Address.fromBytes(positionData.token0),
-      Address.fromBytes(positionData.token1)
-    )
-  );
+  // position.relativeToken0Price = getAssetOracle(
+  //   Address.fromBytes(positionData.token0),
+  //   Address.fromBytes(positionData.token1)
+  // );
+  // position.relativeToken1Price = ONE_BD.div(
+  //   getAssetOracle(
+  //     Address.fromBytes(positionData.token0),
+  //     Address.fromBytes(positionData.token1)
+  //   )
+  // );
   // }
   return position;
 }
@@ -261,16 +261,16 @@ export function updateRedeemPosition(
     }
   }
   // if (token0 != null && token1 != null) {
-  position.relativeToken0Price = getAssetOracle(
-    Address.fromBytes(positionData.token0),
-    Address.fromBytes(positionData.token1)
-  );
-  position.relativeToken1Price = ONE_BD.div(
-    getAssetOracle(
-      Address.fromBytes(positionData.token0),
-      Address.fromBytes(positionData.token1)
-    )
-  );
+  // position.relativeToken0Price = getAssetOracle(
+  //   Address.fromBytes(positionData.token0),
+  //   Address.fromBytes(positionData.token1)
+  // );
+  // position.relativeToken1Price = ONE_BD.div(
+  //   getAssetOracle(
+  //     Address.fromBytes(positionData.token0),
+  //     Address.fromBytes(positionData.token1)
+  //   )
+  // );
   // }
   return position;
 }
@@ -329,16 +329,16 @@ export function updateRepayPosition(
     }
   }
   // if (token0 != null && token1 != null) {
-  position.relativeToken0Price = getAssetOracle(
-    Address.fromBytes(positionData.token0),
-    Address.fromBytes(positionData.token1)
-  );
-  position.relativeToken1Price = ONE_BD.div(
-    getAssetOracle(
-      Address.fromBytes(positionData.token0),
-      Address.fromBytes(positionData.token1)
-    )
-  );
+  // position.relativeToken0Price = getAssetOracle(
+  //   Address.fromBytes(positionData.token0),
+  //   Address.fromBytes(positionData.token1)
+  // );
+  // position.relativeToken1Price = ONE_BD.div(
+  //   getAssetOracle(
+  //     Address.fromBytes(positionData.token0),
+  //     Address.fromBytes(positionData.token1)
+  //   )
+  // );
   // }
   return position;
 }
