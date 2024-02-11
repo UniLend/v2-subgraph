@@ -56,9 +56,6 @@ export function getTokenName(tokenAddress: Address): string {
 
 export function getTokenDecimal(tokenAddress: Address): i32 {
   let contract = ERC20.bind(tokenAddress);
-  // let contractNameBytes = ERC20NameBytes.bind(tokenAddress);
-  // let nameValue = 'unknown';
-  // let nameResult = contract.try_name();
   let decimal = contract.decimals();
   return decimal;
 }

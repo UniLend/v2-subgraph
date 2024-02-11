@@ -4,7 +4,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --product hosted-service shubham-rathod1/unilend-polygon",
+    "deploy": "graph deploy --product hosted-service shubham-rathod1/unilend-polygon-2",
     "create-local": "graph create --node http://localhost:8020/ local_subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ local_subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 local_subgraph",

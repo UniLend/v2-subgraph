@@ -526,28 +526,6 @@ type PoolDailySnapshot @entity {
   " Total assets repaid on a given day, in USD. "
   dailyRepayUSD: BigDecimal!
 
-  ##### Token Balances #####
-
-  # " Amount of input token in the market. "
-  # inputTokenBalance: BigInt!
-
-  # " Price per share of input token in USD "
-  # inputTokenPriceUSD: BigDecimal!
-
-  # " Total supply of output token "
-  # outputTokenSupply: BigInt!
-
-  # " Price per share of output token in USD "
-  # outputTokenPriceUSD: BigDecimal!
-
-  " Amount of input token per full share of output token. Only applies when the output token exists "
-  exchangeRate: BigDecimal
-
-  " Per-block reward token emission as of the current block normalized to a day, in token's native amount. This should be ideally calculated as the theoretical rate instead of the realized amount. "
-  rewardTokenEmissionsAmount: [BigInt!]
-
-  " Per-block reward token emission as of the current block normalized to a day, in USD value. This should be ideally calculated as the theoretical rate instead of the realized amount. "
-  rewardTokenEmissionsUSD: [BigDecimal!]
 }
 
 type Lend @entity(immutable: true) {
@@ -606,13 +584,13 @@ type Borrow @entity(immutable: true) {
   blockNumber: BigInt!
 }
 
-type AssetOracle @entity(immutable: true) {
-  id: Bytes!
-  tokenPrice: BigDecimal!
-  asset: Bytes!
-  source: Bytes!
-  # relativeTokenPrice0: BigDecimal!
-}
+# type AssetOracle @entity(immutable: true) {
+#   id: Bytes!
+#   tokenPrice: BigDecimal!
+#   asset: Bytes!
+#   source: Bytes!
+#   # relativeTokenPrice0: BigDecimal!
+# }
 
 type Transfer @entity {
   id: Bytes!

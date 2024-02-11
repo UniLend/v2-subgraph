@@ -30,16 +30,16 @@
   },
   "mainnet": {
     "Core": {
-      "address": "0x26883aD38ef58f4E33ce533f64E16c61319c99f6",
-      "startBlock": 53306007
+      "address": "0xFf5a76B24e6A3F01E8FcA19661CFD2B69A88BE59",
+      "startBlock": 19192818
     },
     "Oracle": {
-      "address": "0x86148E1eF9D102b3Cf1345FBb8456329C3dEEd29",
-      "startBlock": 53306007
+      "address": "0x4B5ba9C61dC797A41835F766e077984a1f17ae10",
+      "startBlock": 19192818
     },
     "Position": {
-      "address": "0x4B915E92a80498ca5e13c2f2715706A56C05659c",
-      "startBlock": 53306007
+      "address": "0xeE607AFC0A1b5cf67B5AAe1Be3E7A154E2B162c7",
+      "startBlock": 19192818
     }
   },
   "polygon-zkevm-testnet": {

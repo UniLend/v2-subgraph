@@ -24,7 +24,7 @@ import {
   Position__positionResult_positionDataStruct,
 } from '../../generated/Position/Position';
 import { getUserShare } from './pool';
-import { getAssetOracle } from './oracle';
+// import { getAssetOracle } from './oracle';
 
 export function setPosition(
   entity: PositionSchema,
@@ -113,31 +113,6 @@ export function updateLendPosition(
       .toBigDecimal()
       .minus(userShare.get_lendShare1().toBigDecimal());
   }
-  if (event.params._asset == positionData.token0) {
-    position.currentLTV = getCurrentLTV(
-      positionData.lendBalance0,
-      positionData.borrowBalance1,
-      positionData.token0,
-      positionData.token1
-    );
-  } else {
-    position.currentLTV = getCurrentLTV(
-      positionData.lendBalance1,
-      positionData.borrowBalance0,
-      positionData.token0,
-      positionData.token1
-    );
-  }
-  // position.relativeToken0Price = getAssetOracle(
-  //   Address.fromBytes(positionData.token0),
-  //   Address.fromBytes(positionData.token1)
-  // );
-  // position.relativeToken1Price = ONE_BD.div(
-  //   getAssetOracle(
-  //     Address.fromBytes(positionData.token0),
-  //     Address.fromBytes(positionData.token1)
-  //   )
-  // );
   return position;
 }
 
@@ -172,39 +147,6 @@ export function updateBorrowPosition(
       .toBigDecimal()
       .minus(userShare.get_borrowShare1().toBigDecimal());
   }
-
-  if (event.params._asset == positionData.token0 && token1 != null) {
-    let price = ONE_BD.div(
-      getAssetOracle(event.params._asset, event.params._asset)
-    );
-    position.currentLTV = getCurrentLTV(
-      positionData.lendBalance1,
-      positionData.borrowBalance0,
-      positionData.token0,
-      positionData.token1
-    );
-  } else {
-    if (token0 != null) {
-      position.currentLTV = getCurrentLTV(
-        positionData.lendBalance0,
-        positionData.borrowBalance1,
-        positionData.token0,
-        positionData.token1
-      );
-    }
-  }
-  // if (token0 != null && token1 != null) {
-  // position.relativeToken0Price = getAssetOracle(
-  //   Address.fromBytes(positionData.token0),
-  //   Address.fromBytes(positionData.token1)
-  // );
-  // position.relativeToken1Price = ONE_BD.div(
-  //   getAssetOracle(
-  //     Address.fromBytes(positionData.token0),
-  //     Address.fromBytes(positionData.token1)
-  //   )
-  // );
-  // }
   return position;
 }
 
@@ -239,39 +181,7 @@ export function updateRedeemPosition(
       .toBigDecimal()
       .minus(userShare.get_lendShare1().toBigDecimal());
   }
-  // if lendbalance of 0 and 1 is zero then the position have closed;
-  if (event.params._asset == positionData.token0 && token0 != null) {
-    position.currentLTV = getCurrentLTV(
-      positionData.lendBalance0,
-      positionData.borrowBalance1,
-      positionData.token0,
-      positionData.token1
-    );
-  } else {
-    if (token1 != null) {
-      let price = ONE_BD.div(
-        getAssetOracle(event.params._asset, event.params._asset)
-      );
-      position.currentLTV = getCurrentLTV(
-        positionData.lendBalance1,
-        positionData.borrowBalance0,
-        positionData.token0,
-        positionData.token1
-      );
-    }
-  }
-  // if (token0 != null && token1 != null) {
-  // position.relativeToken0Price = getAssetOracle(
-  //   Address.fromBytes(positionData.token0),
-  //   Address.fromBytes(positionData.token1)
-  // );
-  // position.relativeToken1Price = ONE_BD.div(
-  //   getAssetOracle(
-  //     Address.fromBytes(positionData.token0),
-  //     Address.fromBytes(positionData.token1)
-  //   )
-  // );
-  // }
+
   return position;
 }
 
@@ -306,40 +216,6 @@ export function updateRepayPosition(
       .toBigDecimal()
       .minus(userShare.get_borrowShare1().toBigDecimal());
   }
-
-  // borrow position will close here if borrow balance is zero for token 0 and 1
-  if (event.params._asset == positionData.token0 && token1 != null) {
-    let price = ONE_BD.div(
-      getAssetOracle(event.params._asset, event.params._asset)
-    );
-    position.currentLTV = getCurrentLTV(
-      positionData.lendBalance1,
-      positionData.borrowBalance0,
-      positionData.token0,
-      positionData.token1
-    );
-  } else {
-    if (token0 != null) {
-      position.currentLTV = getCurrentLTV(
-        positionData.lendBalance0,
-        positionData.borrowBalance1,
-        positionData.token0,
-        positionData.token1
-      );
-    }
-  }
-  // if (token0 != null && token1 != null) {
-  // position.relativeToken0Price = getAssetOracle(
-  //   Address.fromBytes(positionData.token0),
-  //   Address.fromBytes(positionData.token1)
-  // );
-  // position.relativeToken1Price = ONE_BD.div(
-  //   getAssetOracle(
-  //     Address.fromBytes(positionData.token0),
-  //     Address.fromBytes(positionData.token1)
-  //   )
-  // );
-  // }
   return position;
 }
 
@@ -357,20 +233,6 @@ export function liquidatePositionUpdate(
   position.healthFactor0 = healthFactor.get_healthFactor0().toBigDecimal();
   position.healthFactor1 = healthFactor.get_healthFactor1().toBigDecimal();
   return position;
-}
-
-export function getCurrentLTV(
-  lendValue: BigInt,
-  borrowValue: BigInt,
-  token0: Address,
-  token1: Address
-): BigDecimal {
-  const assetPrice = getAssetOracle(token0, token1);
-  const currentLTV = borrowValue.toBigDecimal().gt(ZERO_BD)
-    ? borrowValue.toBigDecimal().div(lendValue.toBigDecimal().times(assetPrice))
-    : ZERO_BD;
-  return currentLTV;
-  // return price;
 }
 
 export function getPositionData(

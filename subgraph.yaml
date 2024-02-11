@@ -5,11 +5,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Core
-    network: matic
+    network: mainnet
     source:
       abi: Core
-      address: "0x17dad892347803551CeEE2D377d010034df64347"
-      startBlock: 52985062
+      address: "0xFf5a76B24e6A3F01E8FcA19661CFD2B69A88BE59"
+      startBlock: 19192818
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -20,7 +20,6 @@ dataSources:
         - NewDefaultInterestRateAddress
         - NewDefaultMarketConfig
         - NewGovernorAddress
-        - NewOracleAddress
         - NewPositionAddress
         - PoolCreated
       abis:
@@ -36,48 +35,18 @@ dataSources:
           file: ./abis/Pool.json
         - name: Position
           file: ./abis/Position.json
-        - name: Oracle
-          file: ./abis/Oracle.json
         - name: Helper
           file: ./abis/Helper.json
       eventHandlers:
         - event: PoolCreated(indexed address,indexed address,address,uint256)
           handler: handlePoolCreated
   - kind: ethereum
-    name: Oracle
-    network: matic
-    source:
-      abi: Oracle
-      address: "0x4C6E05732b84907B6FE4228EcCa926B557BB9C27"
-      startBlock: 52985062
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      file: ./src/mappings/oracle.ts
-      entities:
-        - Pool
-        - Transaction
-        - AssetOracleUpdated
-      abis:
-        - name: Core
-          file: ./abis/Core.json
-        - name: Pool
-          file: ./abis/Pool.json
-        - name: Position
-          file: ./abis/Position.json
-        - name: Oracle
-          file: ./abis/Oracle.json
-      eventHandlers:
-        - event: AssetOracleUpdated(indexed address,indexed address)
-          handler: handleAssetOracleUpdate
-  - kind: ethereum
     name: Position
-    network: matic
+    network: mainnet
     source:
       abi: Position
-      address: "0x77B6569F0dbC4F265a575a84540c2A0Cae116a90"
-      startBlock: 52985062
+      address: "0xeE607AFC0A1b5cf67B5AAe1Be3E7A154E2B162c7"
+      startBlock: 19192818
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -98,7 +67,7 @@ dataSources:
 templates:
   - name: Pool
     kind: ethereum/contract
-    network: matic
+    network: mainnet
     source:
       abi: Pool
     mapping:
@@ -115,8 +84,6 @@ templates:
           file: ./abis/ERC20.json
         - name: Position
           file: ./abis/Position.json
-        - name: Oracle
-          file: ./abis/Oracle.json
         - name: Helper
           file: ./abis/Helper.json
       eventHandlers:

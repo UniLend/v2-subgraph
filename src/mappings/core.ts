@@ -4,7 +4,7 @@ import {
   NewDefaultInterestRateAddress as NewDefaultInterestRateAddressEvent,
   NewDefaultMarketConfig as NewDefaultMarketConfigEvent,
   NewGovernorAddress as NewGovernorAddressEvent,
-  NewOracleAddress as NewOracleAddressEvent,
+  // NewOracleAddress as NewOracleAddressEvent,
   NewPositionAddress as NewPositionAddressEvent,
   PoolCreated as PoolCreatedEvent,
 } from '../../generated/Core/Core';
@@ -13,7 +13,7 @@ import {
   NewDefaultInterestRateAddress,
   NewDefaultMarketConfig,
   NewGovernorAddress,
-  NewOracleAddress,
+  // NewOracleAddress,
   NewPositionAddress,
   Pool,
   Protocol,
@@ -86,18 +86,18 @@ export function handleNewGovernorAddress(event: NewGovernorAddressEvent): void {
   entity.save();
 }
 
-export function handleNewOracleAddress(event: NewOracleAddressEvent): void {
-  let entity = new NewOracleAddress(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  );
-  entity._address = event.params._address;
+// export function handleNewOracleAddress(event: NewOracleAddressEvent): void {
+//   let entity = new NewOracleAddress(
+//     event.transaction.hash.concatI32(event.logIndex.toI32())
+//   );
+//   entity._address = event.params._address;
 
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+//   entity.blockNumber = event.block.number;
+//   entity.blockTimestamp = event.block.timestamp;
+//   entity.transactionHash = event.transaction.hash;
 
-  entity.save();
-}
+//   entity.save();
+// }
 
 export function handleNewPositionAddress(event: NewPositionAddressEvent): void {
   let entity = new NewPositionAddress(

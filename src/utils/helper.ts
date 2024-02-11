@@ -3,7 +3,7 @@ import {
   Protocol as ProtocolSchema,
   Token,
   Pool as PoolSchema,
-  AssetOracle,
+  // AssetOracle,
 } from '../../generated/schema';
 import { Pool } from '../../generated/templates/Pool/Pool';
 import {
@@ -13,13 +13,12 @@ import {
   helperAddress,
   ONE_BD,
   ONE_BI,
-  oracleAddress,
+  // oracleAddress,
   readValue,
   ZERO_BD,
   ZERO_BI,
 } from './constants';
 import { getTokenDecimal, getTokenName, getTokenSymbol } from './token';
-import { getOraclePrice } from './oracle';
 import { Helper } from '../../generated/templates/Pool/Helper';
 import {
   fullLiquidity,
@@ -30,7 +29,6 @@ import {
 
 export function setToken(address: Address): Token {
   let token = Token.load(address);
-  let assetOracle = AssetOracle.load(address);
   if (token == null) {
     token = new Token(address);
     token.symbol = getTokenSymbol(address);
@@ -43,13 +41,9 @@ export function setToken(address: Address): Token {
     token.poolCount = ZERO_BI;
     token.lentCount = ZERO_BI;
     token.borrowCount = ZERO_BI;
-    token.priceUSD = getOraclePrice(Address.fromString(oracleAddress), address);
   }
   token.oracleSource = ADDRESS_ZERO; 
-  if(assetOracle == null) {
-  }else {
-    token.oracleSource = assetOracle.source;
-  }
+
   token.poolCount = token.poolCount.plus(ONE_BI);
   token.save();
   return token;
