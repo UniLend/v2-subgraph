@@ -28,18 +28,32 @@
       "startBlock": 52985062
     }
   },
-  "mainnet": {
+  "arbitrum-one": {
     "Core": {
-      "address": "0x26883aD38ef58f4E33ce533f64E16c61319c99f6",
-      "startBlock": 53306007
+      "address": "0xBBDF4e0E4FDa0842599921Be429faA3d4faa3956",
+      "startBlock": 183000310
     },
     "Oracle": {
-      "address": "0x86148E1eF9D102b3Cf1345FBb8456329C3dEEd29",
-      "startBlock": 53306007
+      "address": "0x4ae8a7d2C2A0fB7C98f8af49Bd2f8A5523fed35d",
+      "startBlock": 183000310
     },
     "Position": {
-      "address": "0x4B915E92a80498ca5e13c2f2715706A56C05659c",
-      "startBlock": 53306007
+      "address": "0x55da4F6C98B1217095004F69e304F853663D1C11",
+      "startBlock": 183000310
+    }
+  },
+  "mainnet": {
+    "Core": {
+      "address": "0x7f2E24D2394f2bdabb464B888cb02EbA6d15B958",
+      "startBlock": 19213558
+    },
+    "Oracle": {
+      "address": "0x6cEF3FbE3F7Bb676fEB764bb2477f7A525dE9c42",
+      "startBlock": 19213558
+    },
+    "Position": {
+      "address": "0xc45e4aE09c772D143677280f0a764f34F497677a",
+      "startBlock": 19213558
     }
   },
   "polygon-zkevm-testnet": {
